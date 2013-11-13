@@ -63,16 +63,10 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 
 	private static final MenuItems CONTEXT_MENUS = MenuItems
 			.of()
-			.append(
-					MenuItem.itemEdit().setOnclick(
-							"$Actions['DictMgrPage_itemWin']('itemId=' + $pager_action(item).rowId());"))
-			.append(
-					MenuItem.itemDelete().setOnclick(
-							"$Actions['DictMgrPage_Delete']('id=' + $pager_action(item).rowId());"))
+			.append(MenuItem.itemEdit().setOnclick_act("DictMgrPage_itemWin", "itemId"))
+			.append(MenuItem.itemDelete().setOnclick_act("DictMgrPage_Delete", "id"))
 			.append(MenuItem.sep())
-			.append(
-					MenuItem.itemLog().setOnclick(
-							"$Actions['DictMgrPage_logWin']('beanId=' + $pager_action(item).rowId());"))
+			.append(MenuItem.itemLog().setOnclick_act("DictMgrPage_logWin", "beanId"))
 			.append(MenuItem.sep())
 			.append(
 					MenuItem
