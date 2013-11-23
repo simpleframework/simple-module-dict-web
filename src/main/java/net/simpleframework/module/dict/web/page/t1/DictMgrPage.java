@@ -1,7 +1,6 @@
 package net.simpleframework.module.dict.web.page.t1;
 
 import static net.simpleframework.common.I18n.$m;
-import net.simpleframework.ado.db.common.TableColumn;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleRef;
@@ -124,7 +123,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		final DictItem item = service.getBean(cp.getParameter(TablePagerUtils.PARAM_MOVE_ROWID));
 		final DictItem item2 = service.getBean(cp.getParameter(TablePagerUtils.PARAM_MOVE_ROWID2));
 		if (item != null && item2 != null) {
-			service.exchange(item, item2, new TableColumn("oorder"),
+			service.exchange(item, item2,
 					Convert.toBool(cp.getParameter(TablePagerUtils.PARAM_MOVE_UP)));
 		}
 		return new JavascriptForward("$Actions['").append(COMPONENT_TABLE).append("']();");
