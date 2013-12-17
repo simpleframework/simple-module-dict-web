@@ -1,6 +1,5 @@
 package net.simpleframework.module.dict.web.component.dictSelect;
 
-import net.simpleframework.mvc.component.IComponentRegistry;
 import net.simpleframework.mvc.component.ui.window.WindowRender;
 
 /**
@@ -10,8 +9,4 @@ import net.simpleframework.mvc.component.ui.window.WindowRender;
  *         http://www.simpleframework.net
  */
 public class DictSelectRender extends WindowRender {
-
-	public DictSelectRender(final IComponentRegistry componentRegistry) {
-		super(componentRegistry);
-	}
 }
