@@ -1,8 +1,5 @@
 package net.simpleframework.module.dict.web.component.dictSelect;
 
-import net.simpleframework.ctx.common.xml.XmlElement;
-import net.simpleframework.mvc.PageDocument;
-
 /**
  * Licensed under the Apache License, Version 2.0
  * 
@@ -14,8 +11,7 @@ public class DictTreeSelectBean extends DictListSelectBean {
 
 	private boolean dynamicTree;
 
-	public DictTreeSelectBean(final PageDocument pageDocument, final XmlElement xmlElement) {
-		super(pageDocument, xmlElement);
+	public DictTreeSelectBean() {
 		setHandleClass(DictTreeSelectHandler.class);
 	}
 

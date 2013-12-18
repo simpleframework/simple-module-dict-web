@@ -1,8 +1,6 @@
 package net.simpleframework.module.dict.web.component.dictSelect;
 
 import static net.simpleframework.common.I18n.$m;
-import net.simpleframework.ctx.common.xml.XmlElement;
-import net.simpleframework.mvc.PageDocument;
 import net.simpleframework.mvc.component.ui.dictionary.DictionaryBean;
 
 /**
@@ -14,8 +12,7 @@ import net.simpleframework.mvc.component.ui.dictionary.DictionaryBean;
 public class DictListSelectBean extends DictionaryBean {
 	private String dictName;
 
-	public DictListSelectBean(final PageDocument pageDocument, final XmlElement xmlElement) {
-		super(pageDocument, xmlElement);
+	public DictListSelectBean() {
 		setTitle($m("DictSelectBean.0"));
 		setHandleClass(DictListSelectHandler.class);
 	}
