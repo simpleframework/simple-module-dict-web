@@ -14,7 +14,6 @@ import net.simpleframework.module.dict.web.page.t1.DictMgrPage;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.PageRequestResponse;
 import net.simpleframework.mvc.component.ComponentParameter;
-import net.simpleframework.mvc.component.ext.category.CategoryBean;
 import net.simpleframework.mvc.component.ext.category.ctx.CategoryBeanAwareHandler;
 import net.simpleframework.mvc.component.ui.tree.TreeBean;
 import net.simpleframework.mvc.component.ui.tree.TreeNode;
@@ -41,11 +40,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 	protected void onForward(final PageParameter pp) {
 		super.onForward(pp);
 
-		final CategoryBean category = addCategoryBean(pp, "DictItemCategoryPage_items",
-				DictItemCategory.class).setCookies(false);
-		if (context.getDictItemService().queryItems(getDict(pp)).getCount() > 100) {
-			category.setDynamicTree(true);
-		}
+		addCategoryBean(pp, "DictItemCategoryPage_items", DictItemCategory.class);
 	}
 
 	public static class DictItemCategory extends CategoryBeanAwareHandler<DictItem> {
@@ -107,6 +102,15 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 				}
 			}
 			return super.getCategoryTreenodes(cp, treeBean, parent);
+		}
+
+		@Override
+		public void setTreeBean(final ComponentParameter cp, final TreeBean treeBean) {
+			super.setTreeBean(cp, treeBean);
+			treeBean.setCookies(false);
+			if (context.getDictItemService().queryItems(getDict(cp)).getCount() > 100) {
+				treeBean.setDynamicLoading(true);
+			}
 		}
 	}
 }
