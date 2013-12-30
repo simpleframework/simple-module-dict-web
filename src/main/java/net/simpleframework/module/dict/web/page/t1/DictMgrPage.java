@@ -17,7 +17,6 @@ import net.simpleframework.module.dict.web.page.DictItemCategoryPage;
 import net.simpleframework.module.dict.web.page.DictItemEditPage;
 import net.simpleframework.module.dict.web.page.DictItemList;
 import net.simpleframework.mvc.IForward;
-import net.simpleframework.mvc.JavascriptForward;
 import net.simpleframework.mvc.PageMapping;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.EElementEvent;
@@ -126,14 +125,14 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 			service.exchange(item, item2,
 					Convert.toBool(cp.getParameter(TablePagerUtils.PARAM_MOVE_UP)));
 		}
-		return new JavascriptForward("$Actions['").append(COMPONENT_TABLE).append("']();");
+		return createTableRefresh();
 	}
 
 	@Transaction(context = IDictContext.class)
 	public IForward doDelete(final ComponentParameter cp) {
 		final Object[] ids = StringUtils.split(cp.getParameter("id"));
 		context.getDictItemService().delete(ids);
-		return new JavascriptForward("$Actions['").append(COMPONENT_TABLE).append("']();");
+		return createTableRefresh();
 	}
 
 	@Override

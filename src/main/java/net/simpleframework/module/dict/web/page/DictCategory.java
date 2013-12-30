@@ -55,8 +55,7 @@ public class DictCategory extends CategoryBeanAwareHandler<Dict> implements IDic
 			tn.setImage(imgBase + "dict_root.png");
 			tn.setContextMenu("none");
 			tn.setAcceptdrop(true);
-			tn.setJsClickCallback("$Actions['" + CategoryTableLCTemplatePage.COMPONENT_TABLE
-					+ "']('dictId=');");
+			tn.setJsClickCallback(CategoryTableLCTemplatePage.createTableRefresh("dictId=").toString());
 			return TreeNodes.of(tn);
 		} else {
 			final Object obj = parent.getDataObject();
@@ -69,8 +68,8 @@ public class DictCategory extends CategoryBeanAwareHandler<Dict> implements IDic
 					if (count > 0) {
 						parent.setPostfixText("(" + count + ")");
 					}
-					parent.setJsClickCallback("$Actions['" + CategoryTableLCTemplatePage.COMPONENT_TABLE
-							+ "']('dictId=" + dict.getId() + "');");
+					parent.setJsClickCallback(CategoryTableLCTemplatePage.createTableRefresh(
+							"dictId=" + dict.getId()).toString());
 				}
 			}
 		}

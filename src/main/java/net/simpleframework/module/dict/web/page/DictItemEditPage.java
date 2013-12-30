@@ -145,9 +145,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 			service.update(item);
 		}
 
-		final JavascriptForward js = new JavascriptForward();
-		js.append("$Actions['").append(CategoryTableLCTemplatePage.COMPONENT_TABLE)
-				.append("']('dictId=").append(dict.getId()).append("');");
+		final JavascriptForward js = CategoryTableLCTemplatePage.createTableRefresh("dictId="
+				+ dict.getId());
 		if (Convert.toBool(cp.getParameter(OPT_NEXT))) {
 			js.append("$w('di_text di_codeNo di_description').each(function(e) { $(e).clear(); }); $('di_text').focus();");
 		} else {
