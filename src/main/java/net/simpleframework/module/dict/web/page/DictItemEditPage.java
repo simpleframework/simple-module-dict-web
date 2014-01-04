@@ -49,8 +49,8 @@ import net.simpleframework.mvc.template.t1.ext.CategoryTableLCTemplatePage;
 public class DictItemEditPage extends FormTableRowTemplatePage implements IDictContextAware {
 
 	@Override
-	protected void addComponents(final PageParameter pp) {
-		super.addComponents(pp);
+	protected void onForward(final PageParameter pp) {
+		super.onForward(pp);
 
 		// 验证
 		addFormValidationBean(pp).addValidators(

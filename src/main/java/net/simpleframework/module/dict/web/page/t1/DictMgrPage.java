@@ -52,8 +52,10 @@ import net.simpleframework.mvc.template.t1.ext.CategoryTableLCTemplatePage;
 public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictContextAware {
 
 	@Override
-	protected void addComponents(final PageParameter pp) {
-		super.addComponents(pp);
+	protected void onForward(final PageParameter pp) {
+		super.onForward(pp);
+
+		pp.addImportCSS(DictMgrPage.class, "/dict_mgr.css");
 
 		addCategoryBean(pp, DictCategory.class);
 
@@ -102,13 +104,6 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		if (ref != null) {
 			((DictLogRef) ref).addLogComponent(pp);
 		}
-	}
-
-	@Override
-	protected void addImportCSS(final PageParameter pp) {
-		super.addImportCSS(pp);
-
-		pp.addImportCSS(DictMgrPage.class, "/dict_mgr.css");
 	}
 
 	@Override
