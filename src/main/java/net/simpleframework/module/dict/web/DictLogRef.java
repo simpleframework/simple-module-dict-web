@@ -1,6 +1,6 @@
 package net.simpleframework.module.dict.web;
 
-import net.simpleframework.module.dict.DictItem;
+import net.simpleframework.ctx.service.ado.db.IDbBeanService;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.log.LogRef;
 import net.simpleframework.module.log.web.page.EntityUpdateLogPage;
@@ -27,8 +27,8 @@ public class DictLogRef extends LogRef implements IDictContextAware {
 	public static class DictItemLogPage extends EntityUpdateLogPage {
 
 		@Override
-		protected DictItem getBean(final PageParameter pp) {
-			return getCacheBean(pp, context.getDictItemService(), getBeanIdParameter());
+		protected IDbBeanService<?> getBeanService() {
+			return context.getDictItemService();
 		}
 	}
 }
