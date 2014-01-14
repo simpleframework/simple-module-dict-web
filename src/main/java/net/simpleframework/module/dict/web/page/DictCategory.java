@@ -18,7 +18,6 @@ import net.simpleframework.mvc.IPageHandler.PageSelector;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ext.category.ctx.CategoryBeanAwareHandler;
-import net.simpleframework.mvc.component.ui.propeditor.EInputCompType;
 import net.simpleframework.mvc.component.ui.propeditor.InputComp;
 import net.simpleframework.mvc.component.ui.propeditor.PropEditorBean;
 import net.simpleframework.mvc.component.ui.propeditor.PropField;
@@ -142,8 +141,8 @@ public class DictCategory extends CategoryBeanAwareHandler<Dict> implements IDic
 		final PropEditorBean editor = (PropEditorBean) super.categoryEdit_createPropEditor(cp);
 		editor.getFormFields().add(
 				2,
-				new PropField($m("DictCategory.2")).addComponents(new InputComp("dict_mark").setType(
-						EInputCompType.select).setDefaultValue(EDictMark.normal, EDictMark.category)));
+				new PropField($m("DictCategory.2")).addComponents(InputComp.select("dict_mark")
+						.setDefaultValue(EDictMark.normal, EDictMark.category)));
 		return editor;
 	}
 }
