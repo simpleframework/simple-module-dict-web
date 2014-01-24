@@ -136,7 +136,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 	}
 
 	@Override
-	protected TabButtons getTabButtons(final PageParameter pp) {
+	public TabButtons getTabButtons(final PageParameter pp) {
 		return TabButtons.of(new TabButton($m("DictMgrPage.0"), url(DictMgrPage.class)));
 	}
 
