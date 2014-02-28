@@ -14,7 +14,7 @@ public class DictListSelectBean extends DictionaryBean {
 
 	public DictListSelectBean() {
 		setTitle($m("DictSelectBean.0"));
-		setHandleClass(DictListSelectHandler.class);
+		setHandlerClass(DictListSelectHandler.class);
 	}
 
 	public String getDictName() {

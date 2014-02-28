@@ -31,7 +31,7 @@ public class DictListSelectRegistry extends DictionaryRegistry {
 
 		final String dictSelectName = nCP.getComponentName();
 		final ListboxBean listbox = (ListboxBean) pp.addComponentBean(dictSelectName + "_list",
-				ListboxBean.class).setHandleClass(DictList.class);
+				ListboxBean.class).setHandlerClass(DictList.class);
 		dictSelect.addListboxRef(nCP, listbox.getName());
 		listbox.setAttr("$dictSelect", dictSelect);
 

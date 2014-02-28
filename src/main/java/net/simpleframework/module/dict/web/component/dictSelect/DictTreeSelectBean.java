@@ -12,7 +12,7 @@ public class DictTreeSelectBean extends DictListSelectBean {
 	private boolean dynamicTree;
 
 	public DictTreeSelectBean() {
-		setHandleClass(DictTreeSelectHandler.class);
+		setHandlerClass(DictTreeSelectHandler.class);
 	}
 
 	public boolean isDynamicTree() {

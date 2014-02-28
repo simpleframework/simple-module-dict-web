@@ -57,13 +57,14 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 				new Validator(EValidatorMethod.required, "#di_text, #di_dictText, #di_codeNo"));
 
 		// 字典选取
-		addComponentBean(pp, "dictSelectTree", TreeBean.class).setHandleClass(DictSelectedTree.class);
+		addComponentBean(pp, "dictSelectTree", TreeBean.class)
+				.setHandlerClass(DictSelectedTree.class);
 		addComponentBean(pp, "dictSelect", DictionaryBean.class).setBindingId("di_dictId")
 				.setBindingText("di_dictText").addTreeRef(pp, "dictSelectTree")
 				.setTitle($m("DictItemPage.0"));
 
 		// 上级条目选取
-		addComponentBean(pp, "itemParentTree", TreeBean.class).setHandleClass(ItemParentTree.class);
+		addComponentBean(pp, "itemParentTree", TreeBean.class).setHandlerClass(ItemParentTree.class);
 		addComponentBean(pp, "itemParentSelect", DictionaryBean.class)
 				.addTreeRef(pp, "itemParentTree").setBindingId("di_parentId")
 				.setBindingText("di_parentText").setTitle($m("DictItemPage.1")).setDestroyOnClose(true);

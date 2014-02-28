@@ -86,7 +86,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 				.setWidth(380);
 
 		// 移动
-		addAjaxRequest(pp, "DictMgrPage_Move").setHandleMethod("doMove");
+		addAjaxRequest(pp, "DictMgrPage_Move").setHandlerMethod("doMove");
 
 		// 删除
 		addDeleteAjaxRequest(pp, "DictMgrPage_Delete");
