@@ -124,13 +124,10 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		item.setCodeNo(cp.getParameter("di_codeNo"));
 
 		DictItem parent = null;
-		final String parentText = cp.getParameter("di_parentText");
-		if (StringUtils.hasText(parentText)) {
-			final String[] arr = StringUtils.split(parentText, ";");
-			if (arr.length == 1) {
-				parent = service.getItemByCode(dict, arr[0]);
-			} else if (arr.length > 1) {
-			}
+		final String[] arr = StringUtils.split(cp.getParameter("di_parentText"), ";");
+		if (arr.length == 1) {
+			parent = service.getItemByCode(dict, arr[0]);
+		} else if (arr.length > 1) {
 		}
 		if (parent == null) {
 			parent = service.getBean(cp.getParameter("di_parentId"));
