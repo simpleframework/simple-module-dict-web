@@ -115,7 +115,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 				sb.append(item.getText());
 				final String desc = item.getDescription();
 				if (StringUtils.hasText(desc)) {
-					sb.append(BlockElement.tip(desc));
+					sb.append(BlockElement.tipText(desc));
 				}
 
 				kv.put("text", sb.toString());
