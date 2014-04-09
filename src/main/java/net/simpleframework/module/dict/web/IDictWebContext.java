@@ -2,6 +2,7 @@ package net.simpleframework.module.dict.web;
 
 import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.module.dict.IDictContext;
+import net.simpleframework.mvc.IMVCContextVar;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -9,7 +10,7 @@ import net.simpleframework.module.dict.IDictContext;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public interface IDictWebContext extends IDictContext {
+public interface IDictWebContext extends IDictContext, IMVCContextVar {
 
 	IModuleRef getLogRef();
 }
