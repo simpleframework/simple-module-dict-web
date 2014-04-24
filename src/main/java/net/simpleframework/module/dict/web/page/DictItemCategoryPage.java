@@ -31,7 +31,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 	private static Dict getDict(final PageRequestResponse rRequest) {
 		Dict dict = (Dict) rRequest.getRequestAttr("dictId");
 		if (dict == null) {
-			dict = context.getDictService().getBean(rRequest.getParameter("dictId"));
+			dict = dictContext.getDictService().getBean(rRequest.getParameter("dictId"));
 		}
 		return dict;
 	}
@@ -47,13 +47,13 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 
 		@Override
 		protected IDictItemService getBeanService() {
-			return context.getDictItemService();
+			return dictContext.getDictItemService();
 		}
 
 		@Override
 		public Map<String, Object> getFormParameters(final ComponentParameter cp) {
 			final KVMap parameters = (KVMap) super.getFormParameters(cp);
-			final Dict dict = context.getDictService().getBean(cp.getParameter("dictId"));
+			final Dict dict = dictContext.getDictService().getBean(cp.getParameter("dictId"));
 			if (dict != null) {
 				parameters.add("dictId", dict.getId());
 				cp.setRequestAttr("dictId", dict);
@@ -108,7 +108,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 		public void setTreeBean(final ComponentParameter cp, final TreeBean treeBean) {
 			super.setTreeBean(cp, treeBean);
 			treeBean.setCookies(false);
-			if (context.getDictItemService().queryItems(getDict(cp)).getCount() > 100) {
+			if (dictContext.getDictItemService().queryItems(getDict(cp)).getCount() > 100) {
 				treeBean.setDynamicLoading(true);
 			}
 		}

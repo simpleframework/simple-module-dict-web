@@ -100,7 +100,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 				.setHideOn(new HideOn(ETipElement.tip, EElementEvent.mouseleave)).setWidth(320));
 
 		// 修改日志
-		final IModuleRef ref = ((IDictWebContext) context).getLogRef();
+		final IModuleRef ref = ((IDictWebContext) dictContext).getLogRef();
 		if (ref != null) {
 			((DictLogRef) ref).addLogComponent(pp);
 		}
@@ -108,12 +108,12 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 
 	@Override
 	public String getRole(final PageParameter pp) {
-		return context.getManagerRole();
+		return dictContext.getManagerRole();
 	}
 
 	@Transaction(context = IDictContext.class)
 	public IForward doMove(final ComponentParameter cp) {
-		final IDictItemService service = context.getDictItemService();
+		final IDictItemService service = dictContext.getDictItemService();
 		final DictItem item = service.getBean(cp.getParameter(TablePagerUtils.PARAM_MOVE_ROWID));
 		final DictItem item2 = service.getBean(cp.getParameter(TablePagerUtils.PARAM_MOVE_ROWID2));
 		if (item != null && item2 != null) {
@@ -126,7 +126,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 	@Transaction(context = IDictContext.class)
 	public IForward doDelete(final ComponentParameter cp) {
 		final Object[] ids = StringUtils.split(cp.getParameter("id"));
-		context.getDictItemService().delete(ids);
+		dictContext.getDictItemService().delete(ids);
 		return createTableRefresh();
 	}
 

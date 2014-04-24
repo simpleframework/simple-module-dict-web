@@ -36,7 +36,7 @@ public class DictCategory extends CategoryBeanAwareHandler<Dict> implements IDic
 
 	@Override
 	protected IDictService getBeanService() {
-		return context.getDictService();
+		return dictContext.getDictService();
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class DictCategory extends CategoryBeanAwareHandler<Dict> implements IDic
 				final EDictMark dictMark = dict.getDictMark();
 				parent.setImage(dictIcon(cp, dict));
 				if (dictMark != EDictMark.category) {
-					final int count = context.getDictItemService().queryCount(dict);
+					final int count = dictContext.getDictItemService().queryCount(dict);
 					if (count > 0) {
 						parent.setPostfixText("(" + count + ")");
 					}

@@ -23,7 +23,7 @@ public abstract class AbstractDictSelectHandler extends AbstractDictionaryHandle
 		if (!StringUtils.hasText(dictName)) {
 			dictName = (String) cp.getBeanProperty("dictName");
 		}
-		return context.getDictService().getDictByName(dictName);
+		return dictContext.getDictService().getDictByName(dictName);
 	}
 
 	@Override

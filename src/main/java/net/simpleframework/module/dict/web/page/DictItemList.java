@@ -41,7 +41,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 		if (dict != null) {
 			return dict;
 		}
-		dict = context.getDictService().getBean(rRequest.getParameter("dictId"));
+		dict = dictContext.getDictService().getBean(rRequest.getParameter("dictId"));
 		if (dict != null) {
 			rRequest.setRequestAttr("select_dict", dict);
 		}
@@ -51,7 +51,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 	@Override
 	public IDataQuery<?> createDataObjectQuery(final ComponentParameter cp) {
 		final Dict dict = getDict(cp);
-		final IDictItemService service = context.getDictItemService();
+		final IDictItemService service = dictContext.getDictItemService();
 		if (dict == null) {
 			return service.queryAll();
 		} else {
@@ -121,12 +121,12 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 				kv.put("text", sb.toString());
 				kv.put("codeNo", item.getCodeNo());
 				kv.put("itemMark", item.getItemMark());
-				final DictItem parent = context.getDictItemService().getBean(item.getParentId());
+				final DictItem parent = dictContext.getDictItemService().getBean(item.getParentId());
 				if (parent != null) {
 					kv.put("parentId", parent.getText());
 				}
 				if (getDict(cp) == null) {
-					final Dict dict2 = context.getDictService().getBean(item.getDictId());
+					final Dict dict2 = dictContext.getDictService().getBean(item.getDictId());
 					if (dict2 != null) {
 						kv.put("dictId", dict2.getText());
 					}
@@ -165,7 +165,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 
 			@Override
 			protected Dict get(final Object id) {
-				return context.getDictService().getBean(id);
+				return dictContext.getDictService().getBean(id);
 			}
 
 			@Override

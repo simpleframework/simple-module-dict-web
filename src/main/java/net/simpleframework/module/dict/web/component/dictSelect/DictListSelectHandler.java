@@ -30,7 +30,7 @@ public class DictListSelectHandler extends AbstractDictSelectHandler implements
 		if (dict == null) {
 			return null;
 		}
-		final IDictItemService service = context.getDictItemService();
+		final IDictItemService service = dictContext.getDictItemService();
 		final ListItems items = ListItems.of();
 		final IDataQuery<DictItem> dq = service.queryItems(dict);
 		DictItem dictItem;

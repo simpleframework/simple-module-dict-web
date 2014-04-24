@@ -28,7 +28,7 @@ public class DictLogRef extends LogRef implements IDictContextAware {
 
 		@Override
 		protected IDbBeanService<?> getBeanService() {
-			return context.getDictItemService();
+			return dictContext.getDictItemService();
 		}
 	}
 }

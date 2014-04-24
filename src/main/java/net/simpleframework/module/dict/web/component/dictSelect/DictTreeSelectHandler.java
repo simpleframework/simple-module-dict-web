@@ -35,7 +35,7 @@ public class DictTreeSelectHandler extends AbstractDictSelectHandler implements
 		if (dict == null) {
 			return null;
 		}
-		final IDictItemService service = context.getDictItemService();
+		final IDictItemService service = dictContext.getDictItemService();
 		final TreeNodes nodes = TreeNodes.of();
 		final IDataQuery<DictItem> dq;
 		if (parent == null) {

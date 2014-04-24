@@ -71,7 +71,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 	}
 
 	private DictItem getDictItem(final PageParameter pp) {
-		return context.getDictItemService().getBean(pp.getParameter("itemId"));
+		return dictContext.getDictItemService().getBean(pp.getParameter("itemId"));
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 			dataBinding.put("itemId", item.getId());
 			dataBinding.put("di_text", item.getText());
 			dataBinding.put("di_codeNo", item.getCodeNo());
-			final DictItem parent = context.getDictItemService().getBean(item.getParentId());
+			final DictItem parent = dictContext.getDictItemService().getBean(item.getParentId());
 			if (parent != null) {
 				dataBinding.put("di_parentId", parent.getId());
 				dataBinding.put("di_parentText", parent.getText());
@@ -92,7 +92,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 			selector.visibleToggleSelector = ".DictItemPage .b .l";
 		}
 
-		final Dict dict = context.getDictService().getBean(
+		final Dict dict = dictContext.getDictService().getBean(
 				item != null ? item.getDictId() : pp.getParameter("dictId"));
 		if (dict != null) {
 			dataBinding.put("di_dictId", dict.getId());
@@ -108,14 +108,14 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 	@Override
 	@Transaction(context = IDictContext.class)
 	public JavascriptForward onSave(final ComponentParameter cp) {
-		final Dict dict = context.getDictService().getBean(cp.getParameter("di_dictId"));
+		final Dict dict = dictContext.getDictService().getBean(cp.getParameter("di_dictId"));
 		if (dict == null) {
 			throw ModuleException.of($m("DictItemPage.2"));
 		}
 
 		DictItem item = getDictItem(cp);
 		final boolean insert = item == null;
-		final IDictItemService service = context.getDictItemService();
+		final IDictItemService service = dictContext.getDictItemService();
 		if (insert) {
 			item = service.createBean();
 			item.setDictId(dict.getId());
@@ -187,12 +187,12 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		}
 
 		private Dict getDict(final PageRequestResponse rRequest) {
-			return context.getDictService().getBean(rRequest.getParameter("dictId"));
+			return dictContext.getDictService().getBean(rRequest.getParameter("dictId"));
 		}
 
 		@Override
 		public TreeNodes getTreenodes(final ComponentParameter cp, final TreeNode parent) {
-			final IDictItemService service = context.getDictItemService();
+			final IDictItemService service = dictContext.getDictItemService();
 			IDataQuery<DictItem> dq;
 			final Dict dict = getDict(cp);
 			if (dict == null) {
