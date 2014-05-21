@@ -32,7 +32,8 @@ import net.simpleframework.mvc.template.t1.ext.CategoryTableLCTemplatePage;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implements IDictContextAware {
+public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implements
+		IDictContextAware {
 
 	@Override
 	protected IDictService getBeanService() {
@@ -50,7 +51,8 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 			final TreeNode parent) {
 		final String imgBase = getImgBase(cp, DictMgrPage.class);
 		if (parent == null) {
-			final TreeNode tn = createRoot(treeBean, $m("DictCategoryHandler.0"), $m("DictCategoryHandler.1"));
+			final TreeNode tn = createRoot(treeBean, $m("DictCategoryHandler.0"),
+					$m("DictCategoryHandler.1"));
 			tn.setImage(imgBase + "dict_root.png");
 			tn.setContextMenu("none");
 			tn.setAcceptdrop(true);
@@ -132,8 +134,8 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 
 	@Override
 	public KVMap categoryEdit_attri(final ComponentParameter cp) {
-		return ((KVMap) super.categoryEdit_attri(cp)).add(window_title, $m("DictCategoryHandler.3")).add(
-				window_height, 320);
+		return ((KVMap) super.categoryEdit_attri(cp)).add(window_title, $m("DictCategoryHandler.3"))
+				.add(window_height, 320);
 	}
 
 	@Override
