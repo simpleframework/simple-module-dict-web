@@ -13,7 +13,7 @@ import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictItemService;
-import net.simpleframework.mvc.PageRequestResponse;
+import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.BlockElement;
 import net.simpleframework.mvc.common.element.ButtonElement;
 import net.simpleframework.mvc.common.element.ETextAlign;
@@ -26,6 +26,7 @@ import net.simpleframework.mvc.component.ui.menu.MenuItems;
 import net.simpleframework.mvc.component.ui.pager.AbstractTablePagerSchema;
 import net.simpleframework.mvc.component.ui.pager.TablePagerColumn;
 import net.simpleframework.mvc.component.ui.pager.TablePagerColumns;
+import net.simpleframework.mvc.template.AbstractTemplatePage;
 import net.simpleframework.mvc.template.t1.ext.LCTemplateTablePagerHandler;
 
 /**
@@ -36,16 +37,8 @@ import net.simpleframework.mvc.template.t1.ext.LCTemplateTablePagerHandler;
  */
 public class DictItemList extends LCTemplateTablePagerHandler implements IDictContextAware {
 
-	private static Dict getDict(final PageRequestResponse rRequest) {
-		Dict dict = (Dict) rRequest.getRequestAttr("select_dict");
-		if (dict != null) {
-			return dict;
-		}
-		dict = dictContext.getDictService().getBean(rRequest.getParameter("dictId"));
-		if (dict != null) {
-			rRequest.setRequestAttr("select_dict", dict);
-		}
-		return dict;
+	static Dict getDict(final PageParameter pp) {
+		return AbstractTemplatePage.getCacheBean(pp, dictContext.getDictService(), "dictId");
 	}
 
 	@Override

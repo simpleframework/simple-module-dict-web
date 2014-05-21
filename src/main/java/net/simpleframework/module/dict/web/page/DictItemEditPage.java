@@ -22,7 +22,6 @@ import net.simpleframework.mvc.AbstractMVCPage;
 import net.simpleframework.mvc.IPageHandler.PageSelector;
 import net.simpleframework.mvc.JavascriptForward;
 import net.simpleframework.mvc.PageParameter;
-import net.simpleframework.mvc.PageRequestResponse;
 import net.simpleframework.mvc.common.element.InputElement;
 import net.simpleframework.mvc.common.element.RowField;
 import net.simpleframework.mvc.common.element.TableRow;
@@ -179,22 +178,18 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		@Override
 		public Map<String, Object> getFormParameters(final ComponentParameter cp) {
 			final Map<String, Object> parameters = super.getFormParameters(cp);
-			final Dict dict = getDict(cp);
+			final Dict dict = DictItemList.getDict(cp);
 			if (dict != null) {
 				parameters.put("dictId", dict.getId());
 			}
 			return parameters;
 		}
 
-		private Dict getDict(final PageRequestResponse rRequest) {
-			return dictContext.getDictService().getBean(rRequest.getParameter("dictId"));
-		}
-
 		@Override
 		public TreeNodes getTreenodes(final ComponentParameter cp, final TreeNode parent) {
 			final IDictItemService service = dictContext.getDictItemService();
 			IDataQuery<DictItem> dq;
-			final Dict dict = getDict(cp);
+			final Dict dict = DictItemList.getDict(cp);
 			if (dict == null) {
 				dq = DataQueryUtils.nullQuery();
 			} else {

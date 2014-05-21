@@ -12,7 +12,6 @@ import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictItemService;
 import net.simpleframework.module.dict.web.page.t1.DictMgrPage;
 import net.simpleframework.mvc.PageParameter;
-import net.simpleframework.mvc.PageRequestResponse;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ext.category.ctx.CategoryBeanAwareHandler;
 import net.simpleframework.mvc.component.ui.tree.TreeBean;
@@ -27,14 +26,6 @@ import net.simpleframework.mvc.template.t1.ext.OneCategoryTemplatePage;
  *         http://www.simpleframework.net
  */
 public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDictContextAware {
-
-	private static Dict getDict(final PageRequestResponse rRequest) {
-		Dict dict = (Dict) rRequest.getRequestAttr("dictId");
-		if (dict == null) {
-			dict = dictContext.getDictService().getBean(rRequest.getParameter("dictId"));
-		}
-		return dict;
-	}
 
 	@Override
 	protected void onForward(final PageParameter pp) {
@@ -63,7 +54,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 
 		@Override
 		protected IDataQuery<?> categoryBeans(final ComponentParameter cp, final Object categoryId) {
-			final Dict dict = getDict(cp);
+			final Dict dict = DictItemList.getDict(cp);
 			if (dict == null) {
 				return DataQueryUtils.nullQuery();
 			}
@@ -81,7 +72,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 		public TreeNodes getCategoryTreenodes(final ComponentParameter cp, final TreeBean treeBean,
 				final TreeNode parent) {
 			if (parent == null) {
-				final Dict dict = getDict(cp);
+				final Dict dict = DictItemList.getDict(cp);
 				if (dict != null) {
 					final TreeNodes nodes = TreeNodes.of();
 					final TreeNode node = new TreeNode(treeBean, parent, null);
@@ -108,7 +99,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 		public void setTreeBean(final ComponentParameter cp, final TreeBean treeBean) {
 			super.setTreeBean(cp, treeBean);
 			treeBean.setCookies(false);
-			if (dictContext.getDictItemService().queryItems(getDict(cp)).getCount() > 100) {
+			if (dictContext.getDictItemService().queryItems(DictItemList.getDict(cp)).getCount() > 100) {
 				treeBean.setDynamicLoading(true);
 			}
 		}
