@@ -12,7 +12,7 @@ import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictItemService;
 import net.simpleframework.module.dict.web.DictLogRef;
 import net.simpleframework.module.dict.web.IDictWebContext;
-import net.simpleframework.module.dict.web.page.DictCategory;
+import net.simpleframework.module.dict.web.page.DictCategoryHandler;
 import net.simpleframework.module.dict.web.page.DictItemCategoryPage;
 import net.simpleframework.module.dict.web.page.DictItemEditPage;
 import net.simpleframework.module.dict.web.page.DictItemList;
@@ -57,7 +57,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 
 		pp.addImportCSS(DictMgrPage.class, "/dict_mgr.css");
 
-		addCategoryBean(pp, DictCategory.class);
+		addCategoryBean(pp, DictCategoryHandler.class);
 
 		// 字典条目
 		final TablePagerBean tablePager = addTablePagerBean(pp, DictItemList.class);

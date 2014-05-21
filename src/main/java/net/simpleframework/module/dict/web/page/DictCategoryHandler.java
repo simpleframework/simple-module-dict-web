@@ -32,7 +32,7 @@ import net.simpleframework.mvc.template.t1.ext.CategoryTableLCTemplatePage;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class DictCategory extends CategoryBeanAwareHandler<Dict> implements IDictContextAware {
+public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implements IDictContextAware {
 
 	@Override
 	protected IDictService getBeanService() {
@@ -50,7 +50,7 @@ public class DictCategory extends CategoryBeanAwareHandler<Dict> implements IDic
 			final TreeNode parent) {
 		final String imgBase = getImgBase(cp, DictMgrPage.class);
 		if (parent == null) {
-			final TreeNode tn = createRoot(treeBean, $m("DictCategory.0"), $m("DictCategory.1"));
+			final TreeNode tn = createRoot(treeBean, $m("DictCategoryHandler.0"), $m("DictCategoryHandler.1"));
 			tn.setImage(imgBase + "dict_root.png");
 			tn.setContextMenu("none");
 			tn.setAcceptdrop(true);
@@ -121,7 +121,7 @@ public class DictCategory extends CategoryBeanAwareHandler<Dict> implements IDic
 	protected void onDelete_assert(final ComponentParameter cp, final Dict dict) {
 		super.onDelete_assert(cp, dict);
 		if (dict.getDictMark() == EDictMark.builtIn) {
-			throw ModuleException.of($m("DictCategory.4"));
+			throw ModuleException.of($m("DictCategoryHandler.4"));
 		}
 	}
 
@@ -132,7 +132,7 @@ public class DictCategory extends CategoryBeanAwareHandler<Dict> implements IDic
 
 	@Override
 	public KVMap categoryEdit_attri(final ComponentParameter cp) {
-		return ((KVMap) super.categoryEdit_attri(cp)).add(window_title, $m("DictCategory.3")).add(
+		return ((KVMap) super.categoryEdit_attri(cp)).add(window_title, $m("DictCategoryHandler.3")).add(
 				window_height, 320);
 	}
 
@@ -141,7 +141,7 @@ public class DictCategory extends CategoryBeanAwareHandler<Dict> implements IDic
 		final PropEditorBean editor = (PropEditorBean) super.categoryEdit_createPropEditor(cp);
 		editor.getFormFields().add(
 				2,
-				new PropField($m("DictCategory.2")).addComponents(InputComp.select("dict_mark")
+				new PropField($m("DictCategoryHandler.2")).addComponents(InputComp.select("dict_mark")
 						.setDefaultValue(EDictMark.normal, EDictMark.category)));
 		return editor;
 	}
