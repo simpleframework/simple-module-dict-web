@@ -44,7 +44,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 		@Override
 		public Map<String, Object> getFormParameters(final ComponentParameter cp) {
 			final KVMap parameters = (KVMap) super.getFormParameters(cp);
-			final Dict dict = dictContext.getDictService().getBean(cp.getParameter("dictId"));
+			final Dict dict = DictItemList.getDict(cp);
 			if (dict != null) {
 				parameters.add("dictId", dict.getId());
 				cp.setRequestAttr("dictId", dict);
