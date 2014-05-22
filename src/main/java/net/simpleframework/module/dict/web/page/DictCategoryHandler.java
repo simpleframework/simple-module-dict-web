@@ -4,7 +4,6 @@ import static net.simpleframework.common.I18n.$m;
 
 import java.util.Map;
 
-import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
@@ -38,12 +37,6 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	@Override
 	protected IDictService getBeanService() {
 		return dictContext.getDictService();
-	}
-
-	@Override
-	protected IDataQuery<?> categoryBeans(final ComponentParameter cp, final Object categoryId) {
-		final IDictService service = getBeanService();
-		return service.queryChildren(service.getBean(categoryId));
 	}
 
 	@Override
