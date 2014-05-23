@@ -7,7 +7,7 @@ import java.util.Map;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
-import net.simpleframework.ctx.ModuleException;
+import net.simpleframework.ctx.ModuleContextException;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContextAware;
@@ -116,7 +116,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	protected void onDelete_assert(final ComponentParameter cp, final Dict dict) {
 		super.onDelete_assert(cp, dict);
 		if (dict.getDictMark() == EDictMark.builtIn) {
-			throw ModuleException.of($m("DictCategoryHandler.4"));
+			throw ModuleContextException.of($m("DictCategoryHandler.4"));
 		}
 	}
 
