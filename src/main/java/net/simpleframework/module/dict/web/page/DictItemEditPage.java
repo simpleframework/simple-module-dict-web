@@ -81,6 +81,10 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 			dataBinding.put("itemId", item.getId());
 			dataBinding.put("di_text", item.getText());
 			dataBinding.put("di_codeNo", item.getCodeNo());
+
+			dataBinding.put("di_ext1", item.getExt1());
+			dataBinding.put("di_ext2", item.getExt2());
+
 			final DictItem parent = dictContext.getDictItemService().getBean(item.getParentId());
 			if (parent != null) {
 				dataBinding.put("di_parentId", parent.getId());
@@ -214,7 +218,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 
 	@Override
 	public int getLabelWidth(final PageParameter pp) {
-		return 70;
+		return 80;
 	}
 
 	@Override
@@ -222,7 +226,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		final InputElement itemId = InputElement.hidden("itemId");
 		final InputElement di_text = new InputElement("di_text");
 		final InputElement di_codeNo = new InputElement("di_codeNo");
-		final InputElement di_description = InputElement.textarea("di_description").setRows(6);
+		final InputElement di_description = InputElement.textarea("di_description").setRows(4);
 
 		final InputElement di_ext1 = new InputElement("di_ext1");
 		final InputElement di_ext2 = new InputElement("di_ext2");
