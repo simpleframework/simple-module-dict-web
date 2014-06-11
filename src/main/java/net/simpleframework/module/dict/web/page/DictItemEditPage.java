@@ -122,6 +122,9 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		item.setText(cp.getParameter("di_text"));
 		item.setCodeNo(cp.getParameter("di_codeNo"));
 
+		item.setExt1(cp.getParameter("di_ext1"));
+		item.setExt2(cp.getIntParameter("di_ext2"));
+
 		DictItem parent = null;
 		final String[] arr = StringUtils.split(cp.getParameter("di_parentText"), ";");
 		if (arr.length == 1) {
@@ -214,28 +217,31 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		return 70;
 	}
 
-	private final InputElement itemId = InputElement.hidden("itemId");
-	private final InputElement di_text = new InputElement("di_text");
-
-	final TextButton di_dictText = new TextButton("di_dictText").setHiddenField("di_dictId")
-			.setOnclick("$Actions['dictSelect']();");
-
-	private final InputElement di_codeNo = new InputElement("di_codeNo");
-
-	final TextButton di_parentText = new TextButton("di_parentText").setHiddenField("di_parentId")
-			.setOnclick("$Actions['itemParentSelect']('dictId=' + $F('di_dictId'))");
-
-	private final InputElement di_description = InputElement.textarea("di_description").setRows(6);
-
 	@Override
 	protected TableRows getTableRows(final PageParameter pp) {
+		final InputElement itemId = InputElement.hidden("itemId");
+		final InputElement di_text = new InputElement("di_text");
+		final InputElement di_codeNo = new InputElement("di_codeNo");
+		final InputElement di_description = InputElement.textarea("di_description").setRows(6);
+
+		final InputElement di_ext1 = new InputElement("di_ext1");
+		final InputElement di_ext2 = new InputElement("di_ext2");
+
+		final TextButton di_dictText = new TextButton("di_dictText").setHiddenField("di_dictId")
+				.setOnclick("$Actions['dictSelect']();");
+		final TextButton di_parentText = new TextButton("di_parentText")
+				.setHiddenField("di_parentId").setOnclick(
+						"$Actions['itemParentSelect']('dictId=' + $F('di_dictId'))");
+
 		final TableRow r1 = new TableRow(
 				new RowField($m("DictMgrPage.1"), itemId, di_text).setStarMark(true), new RowField(
 						$m("DictItemPage.0"), di_dictText).setStarMark(true));
 		final TableRow r2 = new TableRow(
 				new RowField($m("DictMgrPage.2"), di_codeNo).setStarMark(true), new RowField(
 						$m("DictItemPage.1"), di_parentText));
-		final TableRow r3 = new TableRow(new RowField($m("Description"), di_description));
-		return TableRows.of(r1, r2, r3);
+		final TableRow r3 = new TableRow(new RowField($m("DictItemEditPage.0"), di_ext1),
+				new RowField($m("DictItemEditPage.1"), di_ext2));
+		final TableRow r4 = new TableRow(new RowField($m("Description"), di_description));
+		return TableRows.of(r1, r2, r3, r4);
 	}
 }
