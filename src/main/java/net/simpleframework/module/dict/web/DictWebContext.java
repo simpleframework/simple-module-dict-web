@@ -31,6 +31,6 @@ public class DictWebContext extends DictContext implements IDictWebContext {
 		return ModuleFunctions.of(FUNC_DICT_MGR);
 	}
 
-	public final WebModuleFunction FUNC_DICT_MGR = (WebModuleFunction) new WebModuleFunction(
+	public final WebModuleFunction FUNC_DICT_MGR = (WebModuleFunction) new WebModuleFunction(this,
 			DictMgrPage.class).setName(MODULE_NAME + "-DictMgrPage").setText($m("DictContext.0"));
 }
