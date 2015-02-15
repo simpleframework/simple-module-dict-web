@@ -104,7 +104,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 	}
 
 	@Override
-	protected boolean show_opt_next(final PageParameter pp) {
+	protected boolean isShowOptNext(final PageParameter pp) {
 		return getDictItem(pp) == null;
 	}
 
