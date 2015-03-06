@@ -137,7 +137,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 		editor.getFormFields().add(
 				2,
 				new PropField($m("DictCategoryHandler.2")).addComponents(InputComp.select("dict_mark")
-						.setDefaultValue(EDictMark.normal, EDictMark.category)));
+						.setDefaultEnumValue(EDictMark.normal, EDictMark.category)));
 		return editor;
 	}
 }
