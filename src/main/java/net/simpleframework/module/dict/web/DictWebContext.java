@@ -2,7 +2,6 @@ package net.simpleframework.module.dict.web;
 
 import static net.simpleframework.common.I18n.$m;
 import net.simpleframework.ctx.IModuleRef;
-import net.simpleframework.ctx.Module;
 import net.simpleframework.ctx.ModuleFunctions;
 import net.simpleframework.module.dict.impl.DictContext;
 import net.simpleframework.module.dict.web.page.t1.DictMgrPage;
@@ -22,15 +21,8 @@ public class DictWebContext extends DictContext implements IDictWebContext {
 	}
 
 	@Override
-	protected Module createModule() {
-		return super.createModule().setDefaultFunction(FUNC_DICT_MGR);
-	}
-
-	@Override
 	protected ModuleFunctions getFunctions() {
-		return ModuleFunctions.of(FUNC_DICT_MGR);
+		return ModuleFunctions.of((WebModuleFunction) new WebModuleFunction(this, DictMgrPage.class)
+				.setName(MODULE_NAME + "-DictMgrPage").setText($m("DictContext.0")));
 	}
-
-	public final WebModuleFunction FUNC_DICT_MGR = (WebModuleFunction) new WebModuleFunction(this,
-			DictMgrPage.class).setName(MODULE_NAME + "-DictMgrPage").setText($m("DictContext.0"));
 }
