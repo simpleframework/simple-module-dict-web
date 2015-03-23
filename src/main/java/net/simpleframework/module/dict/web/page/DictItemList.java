@@ -16,7 +16,6 @@ import net.simpleframework.module.dict.IDictItemService;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.BlockElement;
 import net.simpleframework.mvc.common.element.ButtonElement;
-import net.simpleframework.mvc.common.element.ETextAlign;
 import net.simpleframework.mvc.common.element.ElementList;
 import net.simpleframework.mvc.common.element.SpanElement;
 import net.simpleframework.mvc.component.ComponentParameter;
@@ -92,8 +91,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 				if (dict == null) {
 					final TablePagerColumns columns = new TablePagerColumns(
 							super.getTablePagerColumns(cp));
-					columns.add(4, new TablePagerColumn("dictId", $m("DictItemList.1"), 140)
-							.setTextAlign(ETextAlign.left));
+					columns.add(4, new TablePagerColumn("dictId", $m("DictItemList.1"), 140));
 					return columns;
 				}
 				return super.getTablePagerColumns(cp);

@@ -20,7 +20,6 @@ import net.simpleframework.mvc.IForward;
 import net.simpleframework.mvc.PageMapping;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.EElementEvent;
-import net.simpleframework.mvc.common.element.ETextAlign;
 import net.simpleframework.mvc.common.element.ElementList;
 import net.simpleframework.mvc.common.element.Icon;
 import net.simpleframework.mvc.common.element.LinkButton;
@@ -62,12 +61,9 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		// 字典条目
 		final TablePagerBean tablePager = addTablePagerBean(pp, DictItemList.class);
 		tablePager
-				.addColumn(
-						new TablePagerColumn("text", $m("DictMgrPage.1")).setTextAlign(ETextAlign.left))
+				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
 				.addColumn(new TablePagerColumn("codeNo", $m("DictMgrPage.2")))
-				.addColumn(
-						new TablePagerColumn("parentId", $m("DictMgrPage.8"), 150).setTextAlign(
-								ETextAlign.left).setFilter(false))
+				.addColumn(new TablePagerColumn("parentId", $m("DictMgrPage.8"), 150).setFilter(false))
 				.addColumn(
 						new TablePagerColumn("itemMark", $m("DictMgrPage.3"), 100)
 								.setPropertyClass(EDictItemMark.class))
