@@ -27,6 +27,7 @@ import net.simpleframework.mvc.common.element.SpanElement;
 import net.simpleframework.mvc.common.element.TabButton;
 import net.simpleframework.mvc.common.element.TabButtons;
 import net.simpleframework.mvc.component.ComponentParameter;
+import net.simpleframework.mvc.component.base.ajaxrequest.AjaxRequestBean;
 import net.simpleframework.mvc.component.ui.pager.TablePagerBean;
 import net.simpleframework.mvc.component.ui.pager.TablePagerColumn;
 import net.simpleframework.mvc.component.ui.pager.TablePagerUtils;
@@ -37,7 +38,6 @@ import net.simpleframework.mvc.component.ui.tooltip.TipBean;
 import net.simpleframework.mvc.component.ui.tooltip.TipBean.HideOn;
 import net.simpleframework.mvc.component.ui.tooltip.TipBean.Hook;
 import net.simpleframework.mvc.component.ui.tooltip.TooltipBean;
-import net.simpleframework.mvc.component.ui.window.WindowBean;
 import net.simpleframework.mvc.template.struct.NavigationButtons;
 import net.simpleframework.mvc.template.t1.ext.CategoryTableLCTemplatePage;
 
@@ -71,15 +71,15 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 				.setJsLoadedCallback("$Actions['DictMgrPage_Tip']();");
 
 		// 字典条目
-		addAjaxRequest(pp, "DictMgrPage_itemPage", DictItemEditPage.class);
-		addComponentBean(pp, "DictMgrPage_itemWin", WindowBean.class).setTitle($m("DictMgrPage.4"))
-				.setContentRef("DictMgrPage_itemPage").setHeight(300).setWidth(500);
+		AjaxRequestBean ajaxRequest = addAjaxRequest(pp, "DictMgrPage_itemPage",
+				DictItemEditPage.class);
+		addWindowBean(pp, "DictMgrPage_itemWin", ajaxRequest).setTitle($m("DictMgrPage.4"))
+				.setHeight(300).setWidth(500);
 
 		// 树视图
-		addAjaxRequest(pp, "DictMgrPage_categoryPage", DictItemCategoryPage.class);
-		addComponentBean(pp, "DictMgrPage_categoryWin", WindowBean.class)
-				.setContentRef("DictMgrPage_categoryPage").setTitle($m("DictMgrPage.7")).setHeight(450)
-				.setWidth(380);
+		ajaxRequest = addAjaxRequest(pp, "DictMgrPage_categoryPage", DictItemCategoryPage.class);
+		addWindowBean(pp, "DictMgrPage_categoryWin", ajaxRequest).setTitle($m("DictMgrPage.7"))
+				.setHeight(450).setWidth(380);
 
 		// 移动
 		addAjaxRequest(pp, "DictMgrPage_Move").setHandlerMethod("doMove");
