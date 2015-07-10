@@ -51,7 +51,7 @@ import net.simpleframework.mvc.template.t1.ext.CategoryTableLCTemplatePage;
 public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictContextAware {
 
 	@Override
-	protected void onForward(final PageParameter pp) {
+	protected void onForward(final PageParameter pp) throws Exception {
 		super.onForward(pp);
 
 		pp.addImportCSS(DictMgrPage.class, "/dict_mgr.css");

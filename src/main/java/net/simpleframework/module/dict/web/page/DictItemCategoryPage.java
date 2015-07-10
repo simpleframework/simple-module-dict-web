@@ -28,7 +28,7 @@ import net.simpleframework.mvc.template.t1.ext.OneCategoryTemplatePage;
 public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDictContextAware {
 
 	@Override
-	protected void onForward(final PageParameter pp) {
+	protected void onForward(final PageParameter pp) throws Exception {
 		super.onForward(pp);
 
 		addCategoryBean(pp, "DictItemCategoryPage_items", DictItemCategory.class);

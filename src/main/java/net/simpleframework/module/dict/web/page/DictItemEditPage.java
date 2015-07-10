@@ -48,7 +48,7 @@ import net.simpleframework.mvc.template.t1.ext.CategoryTableLCTemplatePage;
 public class DictItemEditPage extends FormTableRowTemplatePage implements IDictContextAware {
 
 	@Override
-	protected void onForward(final PageParameter pp) {
+	protected void onForward(final PageParameter pp) throws Exception {
 		super.onForward(pp);
 
 		// 验证
