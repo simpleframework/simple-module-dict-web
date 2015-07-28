@@ -6,7 +6,6 @@ import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.DictItem;
-import net.simpleframework.module.dict.IDictItemService;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ui.tree.TreeBean;
 import net.simpleframework.mvc.component.ui.tree.TreeNode;
@@ -35,13 +34,13 @@ public class DictTreeSelectHandler extends AbstractDictSelectHandler implements
 		if (dict == null) {
 			return null;
 		}
-		final IDictItemService service = dictContext.getDictItemService();
+
 		final TreeNodes nodes = TreeNodes.of();
 		final IDataQuery<DictItem> dq;
 		if (parent == null) {
-			dq = service.queryRoot(dict);
+			dq = _dictItemService.queryRoot(dict);
 		} else {
-			dq = service.queryChildren((DictItem) parent.getDataObject());
+			dq = _dictItemService.queryChildren((DictItem) parent.getDataObject());
 		}
 		DictItem dictItem;
 		while ((dictItem = dq.next()) != null) {

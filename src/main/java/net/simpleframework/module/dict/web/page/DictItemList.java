@@ -12,7 +12,6 @@ import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContextAware;
-import net.simpleframework.module.dict.IDictItemService;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.BlockElement;
 import net.simpleframework.mvc.common.element.ButtonElement;
@@ -37,18 +36,17 @@ import net.simpleframework.mvc.template.t1.ext.LCTemplateTablePagerHandler;
 public class DictItemList extends LCTemplateTablePagerHandler implements IDictContextAware {
 
 	static Dict getDict(final PageParameter pp) {
-		return AbstractTemplatePage.getCacheBean(pp, dictContext.getDictService(), "dictId");
+		return AbstractTemplatePage.getCacheBean(pp, _dictService, "dictId");
 	}
 
 	@Override
 	public IDataQuery<?> createDataObjectQuery(final ComponentParameter cp) {
 		final Dict dict = getDict(cp);
-		final IDictItemService service = dictContext.getDictItemService();
 		if (dict == null) {
-			return service.queryAll();
+			return _dictItemService.queryAll();
 		} else {
 			cp.addFormParameter("dictId", dict.getId());
-			return service.queryItems(dict);
+			return _dictItemService.queryItems(dict);
 		}
 	}
 
@@ -112,12 +110,12 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 				kv.put("text", sb.toString());
 				kv.put("codeNo", item.getCodeNo());
 				kv.put("itemMark", item.getItemMark());
-				final DictItem parent = dictContext.getDictItemService().getBean(item.getParentId());
+				final DictItem parent = _dictItemService.getBean(item.getParentId());
 				if (parent != null) {
 					kv.put("parentId", parent.getText());
 				}
 				if (getDict(cp) == null) {
-					final Dict dict2 = dictContext.getDictService().getBean(item.getDictId());
+					final Dict dict2 = _dictService.getBean(item.getDictId());
 					if (dict2 != null) {
 						kv.put("dictId", dict2.getText());
 					}
@@ -156,7 +154,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 
 			@Override
 			protected Dict get(final Object id) {
-				return dictContext.getDictService().getBean(id);
+				return _dictService.getBean(id);
 			}
 
 			@Override

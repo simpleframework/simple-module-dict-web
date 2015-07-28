@@ -36,7 +36,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 
 	@Override
 	protected IDictService getBeanService() {
-		return dictContext.getDictService();
+		return _dictService;
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 				final EDictMark dictMark = dict.getDictMark();
 				parent.setImage(dictIcon(cp, dict));
 				if (dictMark != EDictMark.category) {
-					final int count = dictContext.getDictItemService().queryCount(dict);
+					final int count = _dictItemService.queryCount(dict);
 					if (count > 0) {
 						parent.setPostfixText("(" + count + ")");
 					}

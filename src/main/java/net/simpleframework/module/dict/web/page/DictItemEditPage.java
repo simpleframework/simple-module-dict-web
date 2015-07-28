@@ -16,7 +16,6 @@ import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContext;
 import net.simpleframework.module.dict.IDictContextAware;
-import net.simpleframework.module.dict.IDictItemService;
 import net.simpleframework.module.dict.web.page.t1.DictMgrPage;
 import net.simpleframework.mvc.AbstractMVCPage;
 import net.simpleframework.mvc.IPageHandler.PageSelector;
@@ -70,7 +69,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 	}
 
 	private DictItem getDictItem(final PageParameter pp) {
-		return dictContext.getDictItemService().getBean(pp.getParameter("itemId"));
+		return _dictItemService.getBean(pp.getParameter("itemId"));
 	}
 
 	@Override
@@ -85,7 +84,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 			dataBinding.put("di_ext1", item.getExt1());
 			dataBinding.put("di_ext2", item.getExt2());
 
-			final DictItem parent = dictContext.getDictItemService().getBean(item.getParentId());
+			final DictItem parent = _dictItemService.getBean(item.getParentId());
 			if (parent != null) {
 				dataBinding.put("di_parentId", parent.getId());
 				dataBinding.put("di_parentText", parent.getText());
@@ -95,8 +94,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 			selector.visibleToggleSelector = ".DictItemPage .b .l";
 		}
 
-		final Dict dict = dictContext.getDictService().getBean(
-				item != null ? item.getDictId() : pp.getParameter("dictId"));
+		final Dict dict = _dictService.getBean(item != null ? item.getDictId() : pp
+				.getParameter("dictId"));
 		if (dict != null) {
 			dataBinding.put("di_dictId", dict.getId());
 			dataBinding.put("di_dictText", dict.getText());
@@ -111,16 +110,15 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 	@Override
 	@Transaction(context = IDictContext.class)
 	public JavascriptForward onSave(final ComponentParameter cp) {
-		final Dict dict = dictContext.getDictService().getBean(cp.getParameter("di_dictId"));
+		final Dict dict = _dictService.getBean(cp.getParameter("di_dictId"));
 		if (dict == null) {
 			throw ModuleContextException.of($m("DictItemPage.2"));
 		}
 
 		DictItem item = getDictItem(cp);
 		final boolean insert = item == null;
-		final IDictItemService service = dictContext.getDictItemService();
 		if (insert) {
-			item = service.createBean();
+			item = _dictItemService.createBean();
 			item.setDictId(dict.getId());
 		}
 		item.setText(cp.getParameter("di_text"));
@@ -132,11 +130,11 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		DictItem parent = null;
 		final String[] arr = StringUtils.split(cp.getParameter("di_parentText"), ";");
 		if (arr.length == 1) {
-			parent = service.getItemByCode(dict, arr[0]);
+			parent = _dictItemService.getItemByCode(dict, arr[0]);
 		} else if (arr.length > 1) {
 		}
 		if (parent == null) {
-			parent = service.getBean(cp.getParameter("di_parentId"));
+			parent = _dictItemService.getBean(cp.getParameter("di_parentId"));
 		}
 		if (parent != null) {
 			item.setParentId(parent.getId());
@@ -144,9 +142,9 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 
 		item.setDescription(cp.getParameter("di_description"));
 		if (insert) {
-			service.insert(item);
+			_dictItemService.insert(item);
 		} else {
-			service.update(item);
+			_dictItemService.update(item);
 		}
 
 		final JavascriptForward js = CategoryTableLCTemplatePage.createTableRefresh("dictId="
@@ -194,7 +192,6 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 
 		@Override
 		public TreeNodes getTreenodes(final ComponentParameter cp, final TreeNode parent) {
-			final IDictItemService service = dictContext.getDictItemService();
 			IDataQuery<DictItem> dq;
 			final Dict dict = DictItemList.getDict(cp);
 			if (dict == null) {
@@ -204,7 +201,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 				if (parent != null) {
 					pItem = (DictItem) parent.getDataObject();
 				}
-				dq = (pItem == null ? service.queryRoot(dict) : service.queryChildren(pItem));
+				dq = (pItem == null ? _dictItemService.queryRoot(dict) : _dictItemService
+						.queryChildren(pItem));
 			}
 			final TreeNodes nodes = TreeNodes.of();
 			DictItem item;

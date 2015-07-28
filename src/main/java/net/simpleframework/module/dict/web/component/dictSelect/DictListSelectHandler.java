@@ -3,7 +3,6 @@ package net.simpleframework.module.dict.web.component.dictSelect;
 import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.DictItem;
-import net.simpleframework.module.dict.IDictItemService;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ui.listbox.ListItem;
 import net.simpleframework.mvc.component.ui.listbox.ListItems;
@@ -30,9 +29,9 @@ public class DictListSelectHandler extends AbstractDictSelectHandler implements
 		if (dict == null) {
 			return null;
 		}
-		final IDictItemService service = dictContext.getDictItemService();
+
 		final ListItems items = ListItems.of();
-		final IDataQuery<DictItem> dq = service.queryItems(dict);
+		final IDataQuery<DictItem> dq = _dictItemService.queryItems(dict);
 		DictItem dictItem;
 		while ((dictItem = dq.next()) != null) {
 			final ListItem item = createItem(listbox, dictItem);

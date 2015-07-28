@@ -9,7 +9,6 @@ import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.EDictItemMark;
 import net.simpleframework.module.dict.IDictContext;
 import net.simpleframework.module.dict.IDictContextAware;
-import net.simpleframework.module.dict.IDictItemService;
 import net.simpleframework.module.dict.web.DictLogRef;
 import net.simpleframework.module.dict.web.IDictWebContext;
 import net.simpleframework.module.dict.web.page.DictCategoryHandler;
@@ -109,11 +108,12 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 
 	@Transaction(context = IDictContext.class)
 	public IForward doMove(final ComponentParameter cp) {
-		final IDictItemService service = dictContext.getDictItemService();
-		final DictItem item = service.getBean(cp.getParameter(TablePagerUtils.PARAM_MOVE_ROWID));
-		final DictItem item2 = service.getBean(cp.getParameter(TablePagerUtils.PARAM_MOVE_ROWID2));
+		final DictItem item = _dictItemService.getBean(cp
+				.getParameter(TablePagerUtils.PARAM_MOVE_ROWID));
+		final DictItem item2 = _dictItemService.getBean(cp
+				.getParameter(TablePagerUtils.PARAM_MOVE_ROWID2));
 		if (item != null && item2 != null) {
-			service.exchange(item, item2,
+			_dictItemService.exchange(item, item2,
 					Convert.toBool(cp.getParameter(TablePagerUtils.PARAM_MOVE_UP)));
 		}
 		return createTableRefresh();
@@ -122,7 +122,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 	@Transaction(context = IDictContext.class)
 	public IForward doDelete(final ComponentParameter cp) {
 		final Object[] ids = StringUtils.split(cp.getParameter("id"));
-		dictContext.getDictItemService().delete(ids);
+		_dictItemService.delete(ids);
 		return createTableRefresh();
 	}
 

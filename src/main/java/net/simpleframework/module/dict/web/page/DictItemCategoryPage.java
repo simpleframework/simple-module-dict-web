@@ -38,7 +38,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 
 		@Override
 		protected IDictItemService getBeanService() {
-			return dictContext.getDictItemService();
+			return _dictItemService;
 		}
 
 		@Override
@@ -99,7 +99,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 		public void setTreeBean(final ComponentParameter cp, final TreeBean treeBean) {
 			super.setTreeBean(cp, treeBean);
 			treeBean.setCookies(false);
-			if (dictContext.getDictItemService().queryItems(DictItemList.getDict(cp)).getCount() > 100) {
+			if (_dictItemService.queryItems(DictItemList.getDict(cp)).getCount() > 100) {
 				treeBean.setDynamicLoading(true);
 			}
 		}
