@@ -127,7 +127,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 				sb.append(SpanElement.SPACE);
 				sb.append(ButtonElement.logBtn().setOnclick(
 						"$Actions['DictMgrPage_logWin']('beanId=" + id + "');"));
-				sb.append(SpanElement.SPACE).append(IMG_DOWNMENU);
+				sb.append(IMG_DOWNMENU);
 				kv.put(TablePagerColumn.OPE, sb.toString());
 				return kv;
 			}
