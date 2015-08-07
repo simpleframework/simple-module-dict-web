@@ -53,7 +53,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 	protected void onForward(final PageParameter pp) throws Exception {
 		super.onForward(pp);
 
-		pp.addImportCSS(DictMgrPage.class, "/dict_mgr.css");
+		pp.addImportCSS(DictCategoryHandler.class, "/dict_mgr.css");
 
 		addCategoryBean(pp, DictCategoryHandler.class);
 
@@ -65,8 +65,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 				.addColumn(new TablePagerColumn("parentId", $m("DictMgrPage.8"), 150).setFilter(false))
 				.addColumn(
 						new TablePagerColumn("itemMark", $m("DictMgrPage.3"), 100)
-								.setPropertyClass(EDictItemMark.class))
-				.addColumn(TablePagerColumn.OPE(130))
+								.setPropertyClass(EDictItemMark.class)).addColumn(TablePagerColumn.OPE(70))
 				.setJsLoadedCallback("$Actions['DictMgrPage_Tip']();");
 
 		// 字典条目

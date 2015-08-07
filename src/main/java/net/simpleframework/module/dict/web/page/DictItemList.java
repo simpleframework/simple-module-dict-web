@@ -5,7 +5,6 @@ import static net.simpleframework.common.I18n.$m;
 import java.util.Map;
 
 import net.simpleframework.ado.query.IDataQuery;
-import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.module.dict.Dict;
@@ -98,7 +97,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 			@Override
 			public Map<String, Object> getRowData(final ComponentParameter cp, final Object dataObject) {
 				final DictItem item = (DictItem) dataObject;
-				final ID id = item.getId();
+
 				final KVMap kv = new KVMap();
 				final StringBuilder sb = new StringBuilder();
 				sb.append(item.getText());
@@ -121,17 +120,18 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 					}
 				}
 
-				sb.setLength(0);
-				sb.append(ButtonElement.editBtn().setOnclick(
-						"$Actions['DictMgrPage_itemWin']('itemId=" + id + "');"));
-				sb.append(SpanElement.SPACE);
-				sb.append(ButtonElement.logBtn().setOnclick(
-						"$Actions['DictMgrPage_logWin']('beanId=" + id + "');"));
-				sb.append(IMG_DOWNMENU);
-				kv.put(TablePagerColumn.OPE, sb.toString());
+				kv.put(TablePagerColumn.OPE, toOpeHTML(cp, item));
 				return kv;
 			}
 		};
+	}
+
+	protected String toOpeHTML(final ComponentParameter cp, final DictItem item) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append(ButtonElement.editBtn().setOnclick(
+				"$Actions['DictMgrPage_itemWin']('itemId=" + item.getId() + "');"));
+		sb.append(DefaultDbTablePagerSchema.IMG_DOWNMENU);
+		return sb.toString();
 	}
 
 	@Override
