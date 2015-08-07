@@ -66,7 +66,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 				.addColumn(
 						new TablePagerColumn("itemMark", $m("DictMgrPage.3"), 100)
 								.setPropertyClass(EDictItemMark.class))
-				.addColumn(TablePagerColumn.OPE().setWidth(130))
+				.addColumn(TablePagerColumn.OPE(130))
 				.setJsLoadedCallback("$Actions['DictMgrPage_Tip']();");
 
 		// 字典条目
