@@ -130,7 +130,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 		final StringBuilder sb = new StringBuilder();
 		sb.append(ButtonElement.editBtn().setOnclick(
 				"$Actions['DictMgrPage_itemWin']('itemId=" + item.getId() + "');"));
-		sb.append(DefaultDbTablePagerSchema.IMG_DOWNMENU);
+		sb.append(AbstractTablePagerSchema.IMG_DOWNMENU);
 		return sb.toString();
 	}
 
