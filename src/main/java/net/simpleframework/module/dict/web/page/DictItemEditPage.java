@@ -154,14 +154,17 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 			_dictItemService.update(item);
 		}
 
-		final JavascriptForward js = CategoryTableLCTemplatePage.createTableRefresh("dictId="
-				+ dict.getId());
+		final JavascriptForward js = jsTableRefresh(dict);
 		if (Convert.toBool(cp.getParameter(OPT_NEXT))) {
 			js.append("$w('di_text di_codeNo di_description').each(function(e) { $(e).clear(); }); $('di_text').focus();");
 		} else {
 			js.append("$Actions['DictMgrPage_itemWin'].close();");
 		}
 		return js;
+	}
+
+	protected JavascriptForward jsTableRefresh(final Dict dict) {
+		return CategoryTableLCTemplatePage.createTableRefresh("dictId=" + dict.getId());
 	}
 
 	public static class DictSelectedTree extends DictionaryTreeHandler {

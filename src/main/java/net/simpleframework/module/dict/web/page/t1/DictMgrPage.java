@@ -94,7 +94,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		AjaxRequestBean ajaxRequest = addAjaxRequest(pp, "DictMgrPage_itemPage",
 				DictItemEditPage.class);
 		addWindowBean(pp, "DictMgrPage_itemWin", ajaxRequest).setTitle($m("DictMgrPage.4"))
-				.setHeight(300).setWidth(500);
+				.setHeight(340).setWidth(520);
 
 		// 树视图
 		ajaxRequest = addAjaxRequest(pp, "DictMgrPage_categoryPage", DictItemCategoryPage.class);
@@ -102,10 +102,10 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 				.setHeight(450).setWidth(380);
 
 		// 移动
-		addAjaxRequest(pp, "DictMgrPage_Move").setHandlerMethod("doMove");
+		addAjaxRequest(pp, "DictMgrPage_move").setHandlerMethod("doMove");
 
 		// 删除
-		addDeleteAjaxRequest(pp, "DictMgrPage_Delete");
+		addDeleteAjaxRequest(pp, "DictMgrPage_delete");
 
 		// tooltip
 		final TooltipBean tooltip = (TooltipBean) addComponentBean(pp, "DictMgrPage_Tip",
@@ -162,7 +162,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		return ElementList
 				.of(new LinkButton($m("DictMgrPage.5"))
 						.setOnclick("$Actions['DictMgrPage_itemWin']('dictId=' + $F('dictId'));"))
-				.append(delete_btn("DictMgrPage_Delete").setText($m("DictMgrPage.6")))
+				.append(delete_btn("DictMgrPage_delete").setText($m("DictMgrPage.6")))
 				.append(SpanElement.SPACE)
 				.append(
 						new LinkButton($m("DictMgrPage.7")).setIconClass(Icon.folder_open).setOnclick(

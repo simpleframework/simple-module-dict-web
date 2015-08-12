@@ -58,7 +58,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 	private static final MenuItems CONTEXT_MENUS = MenuItems
 			.of()
 			.append(MenuItem.itemEdit().setOnclick_act("DictMgrPage_itemWin", "itemId"))
-			.append(MenuItem.itemDelete().setOnclick_act("DictMgrPage_Delete", "id"))
+			.append(MenuItem.itemDelete().setOnclick_act("DictMgrPage_delete", "id"))
 			.append(MenuItem.sep())
 			.append(MenuItem.itemLog().setOnclick_act("DictMgrPage_logWin", "beanId"))
 			.append(MenuItem.sep())
@@ -67,16 +67,16 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 							.of($m("Menu.move"))
 							.addChild(
 									MenuItem.of($m("Menu.up"), MenuItem.ICON_UP,
-											"$pager_action(item).move(true, 'DictMgrPage_Move');"))
+											"$pager_action(item).move(true, 'DictMgrPage_move');"))
 							.addChild(
 									MenuItem.of($m("Menu.up2"), MenuItem.ICON_UP2,
-											"$pager_action(item).move2(true, 'DictMgrPage_Move');"))
+											"$pager_action(item).move2(true, 'DictMgrPage_move');"))
 							.addChild(
 									MenuItem.of($m("Menu.down"), MenuItem.ICON_DOWN,
-											"$pager_action(item).move(false, 'DictMgrPage_Move');"))
+											"$pager_action(item).move(false, 'DictMgrPage_move');"))
 							.addChild(
 									MenuItem.of($m("Menu.down2"), MenuItem.ICON_DOWN2,
-											"$pager_action(item).move2(false, 'DictMgrPage_Move');")));
+											"$pager_action(item).move2(false, 'DictMgrPage_move');")));
 
 	@Override
 	public MenuItems getContextMenu(final ComponentParameter cp, final MenuBean menuBean,
