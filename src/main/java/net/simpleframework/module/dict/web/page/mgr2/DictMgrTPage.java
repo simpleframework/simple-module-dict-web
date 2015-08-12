@@ -5,19 +5,26 @@ import static net.simpleframework.common.I18n.$m;
 import java.io.IOException;
 import java.util.Map;
 
+import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.ctx.script.MVEL2Template;
 import net.simpleframework.module.common.web.page.AbstractMgrTPage;
+import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.EDictItemMark;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.web.page.DictCategoryHandler;
 import net.simpleframework.module.dict.web.page.DictItemList;
+import net.simpleframework.module.dict.web.page.DictUtils;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.ElementList;
-import net.simpleframework.mvc.component.ext.category.CategoryBean;
+import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ui.pager.EPagerBarLayout;
 import net.simpleframework.mvc.component.ui.pager.TablePagerBean;
 import net.simpleframework.mvc.component.ui.pager.TablePagerColumn;
+import net.simpleframework.mvc.component.ui.tree.AbstractTreeHandler;
+import net.simpleframework.mvc.component.ui.tree.TreeBean;
+import net.simpleframework.mvc.component.ui.tree.TreeNode;
+import net.simpleframework.mvc.component.ui.tree.TreeNodes;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -33,7 +40,7 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 
 		pp.addImportCSS(DictCategoryHandler.class, "/dict_mgr.css");
 
-		addComponentBean(pp, "DictMgrTPage_category", CategoryBean.class).setContainerId(
+		addComponentBean(pp, "DictMgrTPage_tree", TreeBean.class).setContainerId(
 				"idDictMgrTPage_category").setHandlerClass(_DictCategoryHandler.class);
 
 		final TablePagerBean tablePager = (TablePagerBean) addComponentBean(pp, "DictMgrTPage_tbl",
@@ -68,7 +75,21 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 		return sb.toString();
 	}
 
-	public static class _DictCategoryHandler extends DictCategoryHandler {
+	public static class _DictCategoryHandler extends AbstractTreeHandler {
+		@Override
+		public TreeNodes getTreenodes(final ComponentParameter cp, final TreeNode parent) {
+			final TreeNodes nodes = TreeNodes.of();
+			final IDataQuery<Dict> dq = _dictService.queryChildren(parent == null ? null
+					: (Dict) parent.getDataObject());
+			final TreeBean treeBean = (TreeBean) cp.componentBean;
+			Dict dict;
+			while ((dict = dq.next()) != null) {
+				final TreeNode treeNode = new TreeNode(treeBean, parent, dict);
+				treeNode.setImage(DictUtils.getIconPath(cp, dict));
+				nodes.add(treeNode);
+			}
+			return nodes;
+		}
 	}
 
 	public static class _DictItemList extends DictItemList {

@@ -56,9 +56,9 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 			if (obj instanceof Dict) {
 				final Dict dict = (Dict) obj;
 				final EDictMark dictMark = dict.getDictMark();
-				parent.setImage(dictIcon(cp, dict));
+				parent.setImage(DictUtils.getIconPath(cp, dict));
 				if (dictMark != EDictMark.category) {
-					final int count = _dictItemService.queryCount(dict);
+					final int count = dict.getItems();
 					if (count > 0) {
 						parent.setPostfixText("(" + count + ")");
 					}
@@ -75,22 +75,9 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 			final TreeNode parent) {
 		final Object dict;
 		if (parent != null && (dict = parent.getDataObject()) instanceof Dict) {
-			parent.setImage(dictIcon(cp, (Dict) dict));
+			parent.setImage(DictUtils.getIconPath(cp, (Dict) dict));
 		}
 		return super.getCategoryTreenodes(cp, treeBean, parent);
-	}
-
-	private String dictIcon(final ComponentParameter cp, final Dict dict) {
-		final String imgBase = getImgBase(cp, DictMgrPage.class);
-		final EDictMark dictMark = dict.getDictMark();
-		if (dictMark == EDictMark.category) {
-			return imgBase + "dict_c.png";
-		} else if (dictMark == EDictMark.normal) {
-			return imgBase + "dict.png";
-		} else if (dictMark == EDictMark.builtIn) {
-			return imgBase + "dict_lock.png";
-		}
-		return null;
 	}
 
 	@Override
