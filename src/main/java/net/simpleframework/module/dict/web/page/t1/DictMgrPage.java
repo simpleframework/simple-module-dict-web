@@ -2,8 +2,10 @@ package net.simpleframework.module.dict.web.page.t1;
 
 import static net.simpleframework.common.I18n.$m;
 import net.simpleframework.common.Convert;
+import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleRef;
+import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.ctx.trans.Transaction;
 import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.IDictContext;
@@ -26,6 +28,7 @@ import net.simpleframework.mvc.common.element.TabButton;
 import net.simpleframework.mvc.common.element.TabButtons;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.base.ajaxrequest.AjaxRequestBean;
+import net.simpleframework.mvc.component.ext.deptselect.DeptSelectBean;
 import net.simpleframework.mvc.component.ui.pager.TablePagerBean;
 import net.simpleframework.mvc.component.ui.pager.TablePagerColumn;
 import net.simpleframework.mvc.component.ui.pager.TablePagerUtils;
@@ -56,29 +59,36 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 
 		addCategoryBean(pp, DictCategoryHandler.class);
 
+		//
+		addComponentBean(pp, "DictMgrPage_deptSelect", DeptSelectBean.class)
+				.setOrg(true)
+				.setMultiple(false)
+				.setClearAction("false")
+				.setJsSelectCallback(
+						"$Actions['" + COMPONENT_TABLE
+								+ "']('filter_cur_col=domainId&filter=%3D;' + selects[0].id);return true;");
+
 		// 字典条目
 		final TablePagerBean tablePager = addTablePagerBean(pp, DictItemList.class);
 		tablePager
 				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
 				.addColumn(new TablePagerColumn("codeNo", $m("DictMgrPage.2")))
-				.addColumn(new TablePagerColumn("domainId", $m("DictMgrPage.9"), 200))
+				.addColumn(new TablePagerColumn("domainId", $m("DictMgrPage.9"), 200) {
+					@Override
+					public String getFilterVal(final String val) {
+						if (val == null) {
+							return null;
+						}
+						final PermissionDept dept = pp.getPermission().getDept(ID.of(val));
+						return dept.getId() != null ? dept.getText() : val;
+					}
+				}.setFilterAdvClick("$Actions['DictMgrPage_deptSelect']();"))
 				.addColumn(
 						new TablePagerColumn("parentId", $m("DictMgrPage.8"), 100).setFilterSort(false))
 				.addColumn(
 						new TablePagerColumn("itemMark", $m("DictMgrPage.3"), 70).setFilterSort(false))
 				.addColumn(TablePagerColumn.OPE(70))
 				.setJsLoadedCallback("$Actions['DictMgrPage_Tip']();");
-
-		// addc
-		// addComponentBean(
-		// pp,
-		// "UserMgrTPage_deptSelect",
-		// ClassUtils
-		// .forName("net.simpleframework.organization.web.component.deptselect."))
-		// .setMultiple(false)
-		// .setClearAction("false")
-		// .setJsSelectCallback(
-		// "$Actions['UserMgrTPage_tbl']('filter_cur_col=u.departmentId&filter=%3D;' + selects[0].id);return true;");
 
 		// 字典条目
 		AjaxRequestBean ajaxRequest = addAjaxRequest(pp, "DictMgrPage_itemPage",
