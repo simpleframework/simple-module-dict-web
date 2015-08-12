@@ -6,7 +6,6 @@ import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.ctx.trans.Transaction;
 import net.simpleframework.module.dict.DictItem;
-import net.simpleframework.module.dict.EDictItemMark;
 import net.simpleframework.module.dict.IDictContext;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.web.DictLogRef;
@@ -62,11 +61,24 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		tablePager
 				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
 				.addColumn(new TablePagerColumn("codeNo", $m("DictMgrPage.2")))
-				.addColumn(new TablePagerColumn("parentId", $m("DictMgrPage.8"), 150).setFilter(false))
+				.addColumn(new TablePagerColumn("domainId", $m("DictMgrPage.9"), 200))
 				.addColumn(
-						new TablePagerColumn("itemMark", $m("DictMgrPage.3"), 100)
-								.setPropertyClass(EDictItemMark.class)).addColumn(TablePagerColumn.OPE(70))
+						new TablePagerColumn("parentId", $m("DictMgrPage.8"), 100).setFilterSort(false))
+				.addColumn(
+						new TablePagerColumn("itemMark", $m("DictMgrPage.3"), 70).setFilterSort(false))
+				.addColumn(TablePagerColumn.OPE(70))
 				.setJsLoadedCallback("$Actions['DictMgrPage_Tip']();");
+
+		// addc
+		// addComponentBean(
+		// pp,
+		// "UserMgrTPage_deptSelect",
+		// ClassUtils
+		// .forName("net.simpleframework.organization.web.component.deptselect."))
+		// .setMultiple(false)
+		// .setClearAction("false")
+		// .setJsSelectCallback(
+		// "$Actions['UserMgrTPage_tbl']('filter_cur_col=u.departmentId&filter=%3D;' + selects[0].id);return true;");
 
 		// 字典条目
 		AjaxRequestBean ajaxRequest = addAjaxRequest(pp, "DictMgrPage_itemPage",

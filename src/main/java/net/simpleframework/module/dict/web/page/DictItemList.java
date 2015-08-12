@@ -5,8 +5,10 @@ import static net.simpleframework.common.I18n.$m;
 import java.util.Map;
 
 import net.simpleframework.ado.query.IDataQuery;
+import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
+import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.EDictMark;
@@ -45,8 +47,12 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 			return _dictItemService.queryAll();
 		} else {
 			cp.addFormParameter("dictId", dict.getId());
-			return _dictItemService.queryItems(dict);
+			return _dictItemService.queryItems(dict, getOrgId(cp));
 		}
+	}
+
+	protected ID getOrgId(final PageParameter pp) {
+		return null;
 	}
 
 	private static final MenuItems CONTEXT_MENUS = MenuItems
@@ -88,7 +94,9 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 				if (dict == null) {
 					final TablePagerColumns columns = new TablePagerColumns(
 							super.getTablePagerColumns(cp));
-					columns.add(4, new TablePagerColumn("dictId", $m("DictItemList.1"), 140));
+					columns
+							.add(4, new TablePagerColumn("dictId", $m("DictItemList.1"), 100)
+									.setFilterSort(false));
 					return columns;
 				}
 				return super.getTablePagerColumns(cp);
@@ -106,17 +114,21 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 					sb.append(BlockElement.tipText(desc));
 				}
 
-				kv.put("text", sb.toString());
-				kv.put("codeNo", item.getCodeNo());
-				kv.put("itemMark", item.getItemMark());
+				kv.add("text", sb.toString()).add("codeNo", item.getCodeNo())
+						.add("itemMark", item.getItemMark());
+				final PermissionDept dept = cp.getPermission().getDept(item.getDomainId());
+				if (dept.getId() != null) {
+					kv.add("domainId", dept);
+				}
+
 				final DictItem parent = _dictItemService.getBean(item.getParentId());
 				if (parent != null) {
-					kv.put("parentId", parent.getText());
+					kv.add("parentId", parent.getText());
 				}
 				if (getDict(cp) == null) {
 					final Dict dict2 = _dictService.getBean(item.getDictId());
 					if (dict2 != null) {
-						kv.put("dictId", dict2.getText());
+						kv.add("dictId", dict2.getText());
 					}
 				}
 

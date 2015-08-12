@@ -7,6 +7,7 @@ import java.util.Map;
 import net.simpleframework.ado.query.DataQueryUtils;
 import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.Convert;
+import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.ctx.ModuleContextException;
@@ -59,13 +60,18 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 				.setHandlerClass(DictSelectedTree.class);
 		addComponentBean(pp, "dictSelect", DictionaryBean.class).setBindingId("di_dictId")
 				.setBindingText("di_dictText").addTreeRef(pp, "dictSelectTree")
-				.setTitle($m("DictItemPage.0"));
+				.setTitle($m("DictItemPage.0")).setHeight(300);
 
 		// 上级条目选取
 		addComponentBean(pp, "itemParentTree", TreeBean.class).setHandlerClass(ItemParentTree.class);
 		addComponentBean(pp, "itemParentSelect", DictionaryBean.class)
 				.addTreeRef(pp, "itemParentTree").setBindingId("di_parentId")
-				.setBindingText("di_parentText").setTitle($m("DictItemPage.1")).setDestroyOnClose(true);
+				.setBindingText("di_parentText").setTitle($m("DictItemPage.1")).setHeight(300)
+				.setDestroyOnClose(true);
+	}
+
+	protected ID getOrgId(final PageParameter pp) {
+		return null;
 	}
 
 	private DictItem getDictItem(final PageParameter pp) {
@@ -120,6 +126,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		if (insert) {
 			item = _dictItemService.createBean();
 			item.setDictId(dict.getId());
+			item.setDomainId(cp.getLdept().getDomainId());
 		}
 		item.setText(cp.getParameter("di_text"));
 		item.setCodeNo(cp.getParameter("di_codeNo"));
@@ -201,8 +208,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 				if (parent != null) {
 					pItem = (DictItem) parent.getDataObject();
 				}
-				dq = (pItem == null ? _dictItemService.queryRoot(dict) : _dictItemService
-						.queryChildren(pItem));
+				dq = (pItem == null ? _dictItemService.queryRoot(dict, get(DictItemEditPage.class)
+						.getOrgId(cp)) : _dictItemService.queryChildren(pItem));
 			}
 			final TreeNodes nodes = TreeNodes.of();
 			DictItem item;

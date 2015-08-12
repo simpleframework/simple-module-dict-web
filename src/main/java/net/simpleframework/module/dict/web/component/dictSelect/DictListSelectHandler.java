@@ -1,8 +1,10 @@
 package net.simpleframework.module.dict.web.component.dictSelect;
 
 import net.simpleframework.ado.query.IDataQuery;
+import net.simpleframework.common.ID;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.DictItem;
+import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ui.listbox.ListItem;
 import net.simpleframework.mvc.component.ui.listbox.ListItems;
@@ -23,6 +25,10 @@ public class DictListSelectHandler extends AbstractDictSelectHandler implements
 		return item;
 	}
 
+	protected ID getOrgId(final PageParameter pp) {
+		return pp.getLdept().getDomainId();
+	}
+
 	@Override
 	public ListItems getDictItems(final ComponentParameter cp, final ListboxBean listbox) {
 		final Dict dict = getDict(cp);
@@ -31,7 +37,7 @@ public class DictListSelectHandler extends AbstractDictSelectHandler implements
 		}
 
 		final ListItems items = ListItems.of();
-		final IDataQuery<DictItem> dq = _dictItemService.queryItems(dict);
+		final IDataQuery<DictItem> dq = _dictItemService.queryItems(dict, getOrgId(cp));
 		DictItem dictItem;
 		while ((dictItem = dq.next()) != null) {
 			final ListItem item = createItem(listbox, dictItem);

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import net.simpleframework.ado.query.IDataQuery;
+import net.simpleframework.common.ID;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.ctx.script.MVEL2Template;
 import net.simpleframework.module.common.web.page.AbstractMgrTPage;
@@ -93,5 +94,10 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 	}
 
 	public static class _DictItemList extends DictItemList {
+
+		@Override
+		protected ID getOrgId(final PageParameter pp) {
+			return null;
+		}
 	}
 }

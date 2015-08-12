@@ -3,9 +3,11 @@ package net.simpleframework.module.dict.web.component.dictSelect;
 import java.util.Map;
 
 import net.simpleframework.ado.query.IDataQuery;
+import net.simpleframework.common.ID;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.DictItem;
+import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ui.tree.TreeBean;
 import net.simpleframework.mvc.component.ui.tree.TreeNode;
@@ -27,6 +29,10 @@ public class DictTreeSelectHandler extends AbstractDictSelectHandler implements
 		return node;
 	}
 
+	protected ID getOrgId(final PageParameter pp) {
+		return pp.getLdept().getDomainId();
+	}
+
 	@Override
 	public TreeNodes getDictItems(final ComponentParameter cp, final TreeBean treeBean,
 			final TreeNode parent) {
@@ -38,7 +44,7 @@ public class DictTreeSelectHandler extends AbstractDictSelectHandler implements
 		final TreeNodes nodes = TreeNodes.of();
 		final IDataQuery<DictItem> dq;
 		if (parent == null) {
-			dq = _dictItemService.queryRoot(dict);
+			dq = _dictItemService.queryRoot(dict, getOrgId(cp));
 		} else {
 			dq = _dictItemService.queryChildren((DictItem) parent.getDataObject());
 		}
