@@ -22,6 +22,7 @@ import net.simpleframework.module.dict.web.page.DictCategoryHandler;
 import net.simpleframework.module.dict.web.page.DictItemEditPage;
 import net.simpleframework.module.dict.web.page.DictItemList;
 import net.simpleframework.module.dict.web.page.DictUtils;
+import net.simpleframework.module.dict.web.page.t1.DictMgrPage._NavigationTitleCallback;
 import net.simpleframework.mvc.IForward;
 import net.simpleframework.mvc.JavascriptForward;
 import net.simpleframework.mvc.PageParameter;
@@ -33,6 +34,7 @@ import net.simpleframework.mvc.component.ui.pager.EPagerBarLayout;
 import net.simpleframework.mvc.component.ui.pager.TablePagerBean;
 import net.simpleframework.mvc.component.ui.pager.TablePagerColumn;
 import net.simpleframework.mvc.component.ui.pager.TablePagerUtils;
+import net.simpleframework.mvc.component.ui.pager.db.NavigationTitle;
 import net.simpleframework.mvc.component.ui.tree.AbstractTreeHandler;
 import net.simpleframework.mvc.component.ui.tree.TreeBean;
 import net.simpleframework.mvc.component.ui.tree.TreeNode;
@@ -122,7 +124,13 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 
 	@Override
 	public ElementList getLeftElements(final PageParameter pp) {
-		return super.getLeftElements(pp);
+		return ElementList.of(NavigationTitle.toElement(pp, DictUtils.getDict(pp),
+				new _NavigationTitleCallback() {
+					@Override
+					protected String getComponentTable() {
+						return "DictMgrTPage_tbl";
+					}
+				}));
 	}
 
 	@Override

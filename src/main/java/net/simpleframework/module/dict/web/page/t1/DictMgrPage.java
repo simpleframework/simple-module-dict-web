@@ -177,37 +177,39 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 	@Override
 	public ElementList getLeftElements(final PageParameter pp) {
 		return ElementList.of(NavigationTitle.toElement(pp, DictUtils.getDict(pp),
-				new NavigationTitleCallback<Dict>() {
-					@Override
-					protected String getRootText() {
-						return $m("DictItemList.0");
-					}
+				new _NavigationTitleCallback()));
+	}
 
-					@Override
-					protected String getCategoryIdKey() {
-						return "dictId";
-					}
+	public static class _NavigationTitleCallback extends NavigationTitleCallback<Dict> {
+		@Override
+		protected Dict get(final Object id) {
+			return _dictService.getBean(id);
+		}
 
-					@Override
-					protected boolean isLink(final Dict t) {
-						return t.getDictMark() != EDictMark.category;
-					}
+		@Override
+		protected String getRootText() {
+			return $m("DictItemList.0");
+		}
 
-					@Override
-					protected Dict get(final Object id) {
-						return _dictService.getBean(id);
-					}
+		@Override
+		protected String getCategoryIdKey() {
+			return "dictId";
+		}
 
-					@Override
-					protected String getText(final Dict t) {
-						return !isLink(t) ? super.getText(t) : t.getText()
-								+ SpanElement.shortText("(" + t.getName() + ")");
-					}
+		@Override
+		protected boolean isLink(final Dict t) {
+			return t.getDictMark() != EDictMark.category;
+		}
 
-					@Override
-					protected String getComponentTable() {
-						return COMPONENT_TABLE;
-					}
-				}));
+		@Override
+		protected String getText(final Dict t) {
+			return !isLink(t) ? super.getText(t) : t.getText()
+					+ SpanElement.shortText("(" + t.getName() + ")");
+		}
+
+		@Override
+		protected String getComponentTable() {
+			return COMPONENT_TABLE;
+		}
 	}
 }
