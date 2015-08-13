@@ -1,6 +1,27 @@
 .img-data {
-	background: url('images/icon_data.png') no-repeat;
-	display: block;
-	height: 16px;
-	width: 16px;
+  background: url('images/icon_data.png') no-repeat;
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+
+.DictMgrTPage .ltree {
+  padding: 10px 4px;
+  width: 210px;
+  background-color: #def;
+  border-right: 1px solid #aaa;
+}
+
+#idDictMgrTPage_category {
+  min-height: 500px;
+}
+
+.DictMgrTPage .rtbl {
+  padding: 6px;
+}
+
+.DictMgrTPage .tb {
+  border-bottom: 1px solid #bbb;
+  padding: 8px 12px;
+  background-color: #fcfcfc;
 }

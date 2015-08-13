@@ -34,13 +34,15 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 
 	@Override
 	public IDataQuery<?> createDataObjectQuery(final ComponentParameter cp) {
-		final Dict dict = DictUtils.getDict(cp);
-		if (dict == null) {
-			return _dictItemService.queryAll();
-		} else {
-			cp.addFormParameter("dictId", dict.getId());
-			return _dictItemService.queryItems(dict, getOrgId(cp));
+		final ID orgId = getOrgId(cp);
+		if (orgId != null) {
+			cp.addFormParameter("orgId", orgId);
 		}
+		final Dict dict = DictUtils.getDict(cp);
+		if (dict != null) {
+			cp.addFormParameter("dictId", dict.getId());
+		}
+		return _dictItemService.queryItems(dict, orgId);
 	}
 
 	protected ID getOrgId(final PageParameter pp) {

@@ -167,6 +167,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		return ElementList
 				.of(new LinkButton($m("DictMgrPage.5"))
 						.setOnclick("$Actions['DictMgrPage_itemWin']('dictId=' + $F('dictId'));"))
+				.append(SpanElement.SPACE)
 				.append(delete_btn("DictMgrPage_delete").setText($m("DictMgrPage.6")))
 				.append(SpanElement.SPACE)
 				.append(
