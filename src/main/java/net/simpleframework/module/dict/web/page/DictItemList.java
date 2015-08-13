@@ -11,13 +11,10 @@ import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.DictItem;
-import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.BlockElement;
 import net.simpleframework.mvc.common.element.ButtonElement;
-import net.simpleframework.mvc.common.element.ElementList;
-import net.simpleframework.mvc.common.element.SpanElement;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ui.menu.MenuBean;
 import net.simpleframework.mvc.component.ui.menu.MenuItem;
@@ -25,7 +22,6 @@ import net.simpleframework.mvc.component.ui.menu.MenuItems;
 import net.simpleframework.mvc.component.ui.pager.AbstractTablePagerSchema;
 import net.simpleframework.mvc.component.ui.pager.TablePagerColumn;
 import net.simpleframework.mvc.component.ui.pager.TablePagerColumns;
-import net.simpleframework.mvc.template.AbstractTemplatePage;
 import net.simpleframework.mvc.template.t1.ext.LCTemplateTablePagerHandler;
 
 /**
@@ -36,13 +32,9 @@ import net.simpleframework.mvc.template.t1.ext.LCTemplateTablePagerHandler;
  */
 public class DictItemList extends LCTemplateTablePagerHandler implements IDictContextAware {
 
-	static Dict getDict(final PageParameter pp) {
-		return AbstractTemplatePage.getCacheBean(pp, _dictService, "dictId");
-	}
-
 	@Override
 	public IDataQuery<?> createDataObjectQuery(final ComponentParameter cp) {
-		final Dict dict = getDict(cp);
+		final Dict dict = DictUtils.getDict(cp);
 		if (dict == null) {
 			return _dictItemService.queryAll();
 		} else {
@@ -90,7 +82,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 		return new DefaultDbTablePagerSchema() {
 			@Override
 			public TablePagerColumns getTablePagerColumns(final ComponentParameter cp) {
-				final Dict dict = getDict(cp);
+				final Dict dict = DictUtils.getDict(cp);
 				if (dict == null) {
 					final TablePagerColumns columns = new TablePagerColumns(
 							super.getTablePagerColumns(cp));
@@ -125,7 +117,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 				if (parent != null) {
 					kv.add("parentId", parent.getText());
 				}
-				if (getDict(cp) == null) {
+				if (DictUtils.getDict(cp) == null) {
 					final Dict dict2 = _dictService.getBean(item.getDictId());
 					if (dict2 != null) {
 						kv.add("dictId", dict2.getText());
@@ -144,36 +136,5 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 				"$Actions['DictMgrPage_itemWin']('itemId=" + item.getId() + "');"));
 		sb.append(AbstractTablePagerSchema.IMG_DOWNMENU);
 		return sb.toString();
-	}
-
-	@Override
-	protected ElementList getNavigationTitle(final ComponentParameter cp) {
-		return doNavigationTitle(cp, getDict(cp), new NavigationTitleCallback<Dict>() {
-			@Override
-			protected String rootText() {
-				return $m("DictItemList.0");
-			}
-
-			@Override
-			protected String categoryIdKey() {
-				return "dictId";
-			}
-
-			@Override
-			protected boolean isLink(final Dict t) {
-				return t.getDictMark() != EDictMark.category;
-			}
-
-			@Override
-			protected Dict get(final Object id) {
-				return _dictService.getBean(id);
-			}
-
-			@Override
-			protected String getText(final Dict t) {
-				return !isLink(t) ? super.getText(t) : t.getText()
-						+ SpanElement.shortText("(" + t.getName() + ")");
-			}
-		});
 	}
 }

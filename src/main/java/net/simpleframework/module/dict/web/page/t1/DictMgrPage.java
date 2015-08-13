@@ -7,7 +7,9 @@ import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.ctx.trans.Transaction;
+import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.DictItem;
+import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContext;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.web.DictLogRef;
@@ -16,6 +18,7 @@ import net.simpleframework.module.dict.web.page.DictCategoryHandler;
 import net.simpleframework.module.dict.web.page.DictItemCategoryPage;
 import net.simpleframework.module.dict.web.page.DictItemEditPage;
 import net.simpleframework.module.dict.web.page.DictItemList;
+import net.simpleframework.module.dict.web.page.DictUtils;
 import net.simpleframework.mvc.IForward;
 import net.simpleframework.mvc.PageMapping;
 import net.simpleframework.mvc.PageParameter;
@@ -32,6 +35,8 @@ import net.simpleframework.mvc.component.ext.deptselect.DeptSelectBean;
 import net.simpleframework.mvc.component.ui.pager.TablePagerBean;
 import net.simpleframework.mvc.component.ui.pager.TablePagerColumn;
 import net.simpleframework.mvc.component.ui.pager.TablePagerUtils;
+import net.simpleframework.mvc.component.ui.pager.db.NavigationTitle;
+import net.simpleframework.mvc.component.ui.pager.db.NavigationTitle.NavigationTitleCallback;
 import net.simpleframework.mvc.component.ui.tooltip.ETipElement;
 import net.simpleframework.mvc.component.ui.tooltip.ETipPosition;
 import net.simpleframework.mvc.component.ui.tooltip.ETipStyle;
@@ -59,7 +64,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 
 		addCategoryBean(pp, DictCategoryHandler.class);
 
-		//
+		// 部门选取
 		addComponentBean(pp, "DictMgrPage_deptSelect", DeptSelectBean.class)
 				.setOrg(true)
 				.setMultiple(false)
@@ -158,7 +163,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 	}
 
 	@Override
-	public ElementList getLeftElements(final PageParameter pp) {
+	public ElementList getRightElements(final PageParameter pp) {
 		return ElementList
 				.of(new LinkButton($m("DictMgrPage.5"))
 						.setOnclick("$Actions['DictMgrPage_itemWin']('dictId=' + $F('dictId'));"))
@@ -167,5 +172,42 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 				.append(
 						new LinkButton($m("DictMgrPage.7")).setIconClass(Icon.folder_open).setOnclick(
 								"$Actions['DictMgrPage_categoryWin']('dictId=' + $F('dictId'));"));
+	}
+
+	@Override
+	public ElementList getLeftElements(final PageParameter pp) {
+		return ElementList.of(NavigationTitle.toElement(pp, DictUtils.getDict(pp),
+				new NavigationTitleCallback<Dict>() {
+					@Override
+					protected String getRootText() {
+						return $m("DictItemList.0");
+					}
+
+					@Override
+					protected String getCategoryIdKey() {
+						return "dictId";
+					}
+
+					@Override
+					protected boolean isLink(final Dict t) {
+						return t.getDictMark() != EDictMark.category;
+					}
+
+					@Override
+					protected Dict get(final Object id) {
+						return _dictService.getBean(id);
+					}
+
+					@Override
+					protected String getText(final Dict t) {
+						return !isLink(t) ? super.getText(t) : t.getText()
+								+ SpanElement.shortText("(" + t.getName() + ")");
+					}
+
+					@Override
+					protected String getComponentTable() {
+						return COMPONENT_TABLE;
+					}
+				}));
 	}
 }

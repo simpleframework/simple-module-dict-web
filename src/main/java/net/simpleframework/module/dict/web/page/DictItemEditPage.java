@@ -193,7 +193,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		@Override
 		public Map<String, Object> getFormParameters(final ComponentParameter cp) {
 			final Map<String, Object> parameters = super.getFormParameters(cp);
-			final Dict dict = DictItemList.getDict(cp);
+			final Dict dict = DictUtils.getDict(cp);
 			if (dict != null) {
 				parameters.put("dictId", dict.getId());
 			}
@@ -203,7 +203,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		@Override
 		public TreeNodes getTreenodes(final ComponentParameter cp, final TreeNode parent) {
 			IDataQuery<DictItem> dq;
-			final Dict dict = DictItemList.getDict(cp);
+			final Dict dict = DictUtils.getDict(cp);
 			if (dict == null) {
 				dq = DataQueryUtils.nullQuery();
 			} else {

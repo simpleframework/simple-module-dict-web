@@ -49,7 +49,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 		@Override
 		public Map<String, Object> getFormParameters(final ComponentParameter cp) {
 			final KVMap parameters = (KVMap) super.getFormParameters(cp);
-			final Dict dict = DictItemList.getDict(cp);
+			final Dict dict = DictUtils.getDict(cp);
 			if (dict != null) {
 				parameters.add("dictId", dict.getId());
 				cp.setRequestAttr("dictId", dict);
@@ -59,7 +59,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 
 		@Override
 		protected IDataQuery<?> categoryBeans(final ComponentParameter cp, final Object categoryId) {
-			final Dict dict = DictItemList.getDict(cp);
+			final Dict dict = DictUtils.getDict(cp);
 			if (dict == null) {
 				return DataQueryUtils.nullQuery();
 			}
@@ -78,7 +78,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 		public TreeNodes getCategoryTreenodes(final ComponentParameter cp, final TreeBean treeBean,
 				final TreeNode parent) {
 			if (parent == null) {
-				final Dict dict = DictItemList.getDict(cp);
+				final Dict dict = DictUtils.getDict(cp);
 				if (dict != null) {
 					final TreeNodes nodes = TreeNodes.of();
 					final TreeNode node = new TreeNode(treeBean, parent, null);
@@ -105,7 +105,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 		public void setTreeBean(final ComponentParameter cp, final TreeBean treeBean) {
 			super.setTreeBean(cp, treeBean);
 			treeBean.setCookies(false);
-			if (_dictItemService.queryItems(DictItemList.getDict(cp),
+			if (_dictItemService.queryItems(DictUtils.getDict(cp),
 					get(DictItemCategoryPage.class).getOrgId(cp)).getCount() > 100) {
 				treeBean.setDynamicLoading(true);
 			}
