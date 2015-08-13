@@ -126,7 +126,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		if (insert) {
 			item = _dictItemService.createBean();
 			item.setDictId(dict.getId());
-			item.setDomainId(cp.getLdept().getDomainId());
+			item.setDomainId(getPermissionOrg(cp).getId());
 		}
 		item.setText(cp.getParameter("di_text"));
 		item.setCodeNo(cp.getParameter("di_codeNo"));

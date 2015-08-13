@@ -30,7 +30,11 @@ public class DictTreeSelectHandler extends AbstractDictSelectHandler implements
 	}
 
 	protected ID getOrgId(final PageParameter pp) {
-		return pp.getLdept().getDomainId();
+		ID orgId = pp.toID("orgId");
+		if (orgId == null) {
+			orgId = pp.getLdept().getDomainId();
+		}
+		return orgId;
 	}
 
 	@Override

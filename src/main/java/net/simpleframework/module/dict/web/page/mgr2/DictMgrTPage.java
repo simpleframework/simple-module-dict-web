@@ -10,6 +10,7 @@ import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
+import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.ctx.script.MVEL2Template;
 import net.simpleframework.ctx.trans.Transaction;
 import net.simpleframework.module.common.web.page.AbstractMgrTPage;
@@ -18,6 +19,8 @@ import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContext;
 import net.simpleframework.module.dict.IDictContextAware;
+import net.simpleframework.module.dict.web.DictLogRef;
+import net.simpleframework.module.dict.web.IDictWebContext;
 import net.simpleframework.module.dict.web.page.DictCategoryHandler;
 import net.simpleframework.module.dict.web.page.DictItemEditPage;
 import net.simpleframework.module.dict.web.page.DictItemList;
@@ -80,6 +83,12 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 		addDeleteAjaxRequest(pp, "DictMgrPage_delete");
 		// 移动
 		addAjaxRequest(pp, "DictMgrPage_move").setHandlerMethod("doMove");
+
+		// 修改日志
+		final IModuleRef ref = ((IDictWebContext) dictContext).getLogRef();
+		if (ref != null) {
+			((DictLogRef) ref).addLogComponent(pp);
+		}
 	}
 
 	@Transaction(context = IDictContext.class)
@@ -107,12 +116,6 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 			final String currentVariable) throws IOException {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("<div class='DictMgrTPage'>");
-		sb.append(" <div class='tb clearfix'>");
-		sb.append("  <div class='left'>").append(StringUtils.blank(getLeftElements(pp)))
-				.append("</div>");
-		sb.append("  <div class='right'>").append(StringUtils.blank(getRightElements(pp)))
-				.append("</div>");
-		sb.append(" </div>");
 		sb.append("	<table width='100%'><tr>");
 		sb.append("  <td valign='top' class='ltree'><div id='idDictMgrTPage_category'></div></td>");
 		sb.append("  <td valign='top' class='rtbl'><div id='idDictMgrTPage_tbl'></div></td>");
@@ -120,17 +123,6 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 		sb.append("</div>");
 		sb.append(MVEL2Template.replace(new KVMap(), DictMgrTPage.class, "Test.html"));
 		return sb.toString();
-	}
-
-	@Override
-	public ElementList getLeftElements(final PageParameter pp) {
-		return ElementList.of(NavigationTitle.toElement(pp, DictUtils.getDict(pp),
-				new _NavigationTitleCallback() {
-					@Override
-					protected String getComponentTable() {
-						return "DictMgrTPage_tbl";
-					}
-				}));
 	}
 
 	@Override
@@ -163,8 +155,22 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 	public static class _DictItemList extends DictItemList {
 
 		@Override
+		public Object getBeanProperty(final ComponentParameter cp, final String beanProperty) {
+			if ("title".equals(beanProperty)) {
+				return NavigationTitle.toElement(cp, DictUtils.getDict(cp),
+						new _NavigationTitleCallback() {
+							@Override
+							protected String getComponentTable() {
+								return "DictMgrTPage_tbl";
+							}
+						}).toString();
+			}
+			return super.getBeanProperty(cp, beanProperty);
+		}
+
+		@Override
 		protected ID getOrgId(final PageParameter pp) {
-			return pp.getLdept().getDomainId();
+			return getPermissionOrg(pp).getId();
 		}
 	}
 
@@ -172,7 +178,7 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 
 		@Override
 		protected ID getOrgId(final PageParameter pp) {
-			return pp.getLdept().getDomainId();
+			return getPermissionOrg(pp).getId();
 		}
 
 		@Override
