@@ -1,14 +1,12 @@
 package net.simpleframework.module.dict.web.page.t1;
 
 import static net.simpleframework.common.I18n.$m;
-import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.ctx.trans.Transaction;
 import net.simpleframework.module.dict.Dict;
-import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContext;
 import net.simpleframework.module.dict.IDictContextAware;
@@ -134,14 +132,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 
 	@Transaction(context = IDictContext.class)
 	public IForward doMove(final ComponentParameter cp) {
-		final DictItem item = _dictItemService.getBean(cp
-				.getParameter(TablePagerUtils.PARAM_MOVE_ROWID));
-		final DictItem item2 = _dictItemService.getBean(cp
-				.getParameter(TablePagerUtils.PARAM_MOVE_ROWID2));
-		if (item != null && item2 != null) {
-			_dictItemService.exchange(item, item2,
-					Convert.toBool(cp.getParameter(TablePagerUtils.PARAM_MOVE_UP)));
-		}
+		_dictItemService.exchange(TablePagerUtils.getExchangeBeans(cp, _dictItemService));
 		return createTableRefresh();
 	}
 
