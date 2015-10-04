@@ -12,7 +12,6 @@ import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictService;
-import net.simpleframework.module.dict.web.page.t1.DictMgrPage;
 import net.simpleframework.mvc.IPageHandler.PageSelector;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentParameter;
@@ -42,7 +41,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	@Override
 	public TreeNodes getCategoryTreenodes(final ComponentParameter cp, final TreeBean treeBean,
 			final TreeNode parent) {
-		final String imgBase = getImgBase(cp, DictMgrPage.class);
+		final String imgBase = getImgBase(cp, DictCategoryHandler.class);
 		if (parent == null) {
 			final TreeNode tn = createRoot(treeBean, $m("DictCategoryHandler.0"),
 					$m("DictCategoryHandler.1"));
