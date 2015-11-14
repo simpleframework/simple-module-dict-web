@@ -11,7 +11,6 @@ import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictItemService;
-import net.simpleframework.module.dict.web.page.t1.DictMgrPage;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ext.category.ctx.CategoryBeanAwareHandler;
@@ -85,7 +84,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 					node.setText(dict.getText());
 					node.setAcceptdrop(true);
 					node.setOpened(true);
-					final String imgBase = getImgBase(cp, DictMgrPage.class);
+					final String imgBase = getImgBase(cp, DictItemCategoryPage.class);
 					final EDictMark dictMark = dict.getDictMark();
 					node.setImage(imgBase
 							+ (dictMark == EDictMark.builtIn ? "dict_lock.png" : "dict.png"));
@@ -94,7 +93,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 				}
 			} else {
 				if (parent.getDataObject() instanceof DictItem) {
-					final String imgBase = getImgBase(cp, DictMgrPage.class);
+					final String imgBase = getImgBase(cp, DictItemCategoryPage.class);
 					parent.setImage(imgBase + "dict-item.png");
 				}
 			}
