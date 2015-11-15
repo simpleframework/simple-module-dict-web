@@ -5,14 +5,12 @@ import static net.simpleframework.common.I18n.$m;
 import java.io.IOException;
 import java.util.Map;
 
-import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.ctx.trans.Transaction;
 import net.simpleframework.module.common.web.page.AbstractMgrTPage;
 import net.simpleframework.module.dict.Dict;
-import net.simpleframework.module.dict.EDictMark;
 import net.simpleframework.module.dict.IDictContext;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.web.DictLogRef;
@@ -32,15 +30,13 @@ import net.simpleframework.mvc.common.element.LinkButton;
 import net.simpleframework.mvc.common.element.SpanElement;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.base.ajaxrequest.AjaxRequestBean;
+import net.simpleframework.mvc.component.ext.category.CategoryBean;
 import net.simpleframework.mvc.component.ui.pager.EPagerBarLayout;
 import net.simpleframework.mvc.component.ui.pager.TablePagerBean;
 import net.simpleframework.mvc.component.ui.pager.TablePagerColumn;
 import net.simpleframework.mvc.component.ui.pager.TablePagerUtils;
 import net.simpleframework.mvc.component.ui.pager.db.NavigationTitle;
-import net.simpleframework.mvc.component.ui.tree.AbstractTreeHandler;
-import net.simpleframework.mvc.component.ui.tree.TreeBean;
 import net.simpleframework.mvc.component.ui.tree.TreeNode;
-import net.simpleframework.mvc.component.ui.tree.TreeNodes;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -57,8 +53,9 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 		pp.addImportCSS(DictCategoryHandler.class, "/dict_mgr.css");
 
 		// 导航树
-		addComponentBean(pp, "DictMgrTPage_tree", TreeBean.class).setContainerId(
-				"idDictMgrTPage_category").setHandlerClass(_DictCategoryHandler.class);
+		addComponentBean(pp, "DictMgrTPage_tree", CategoryBean.class).setDraggable(pp.isLmanager())
+				.setContainerId("idDictMgrTPage_category").setHandlerClass(_DictCategoryHandler.class);
+
 		// 表格
 		final TablePagerBean tablePager = (TablePagerBean) addComponentBean(pp, "DictMgrTPage_tbl",
 				TablePagerBean.class).setShowLineNo(true).setPageItems(30)
@@ -77,7 +74,7 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 		AjaxRequestBean ajaxRequest = addAjaxRequest(pp, "DictMgrPage_itemPage",
 				_DictItemEditPage.class);
 		addWindowBean(pp, "DictMgrPage_itemWin", ajaxRequest).setTitle($m("DictMgrPage.4"))
-				.setHeight(340).setWidth(520);
+				.setHeight(350).setWidth(540);
 
 		// 删除
 		addDeleteAjaxRequest(pp, "DictMgrPage_delete");
@@ -137,24 +134,11 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 								"$Actions['DictMgrTPage_categoryWin']('dictId=' + $F('dictId'));"));
 	}
 
-	public static class _DictCategoryHandler extends AbstractTreeHandler {
+	public static class _DictCategoryHandler extends DictCategoryHandler {
 		@Override
-		public TreeNodes getTreenodes(final ComponentParameter cp, final TreeNode parent) {
-			final TreeNodes nodes = TreeNodes.of();
-			final IDataQuery<Dict> dq = _dictService.queryChildren(parent == null ? null
-					: (Dict) parent.getDataObject());
-			final TreeBean treeBean = (TreeBean) cp.componentBean;
-			Dict dict;
-			while ((dict = dq.next()) != null) {
-				final TreeNode treeNode = new TreeNode(treeBean, parent, dict);
-				treeNode.setImage(DictUtils.getIconPath(cp, dict));
-				if (dict.getDictMark() != EDictMark.category) {
-					treeNode.setJsClickCallback("$Actions['DictMgrTPage_tbl']('dictId=" + dict.getId()
-							+ "')");
-				}
-				nodes.add(treeNode);
-			}
-			return nodes;
+		protected void setJsClickCallback(final TreeNode tn, final Dict dict) {
+			tn.setJsClickCallback("$Actions['DictMgrTPage_tbl']('dictId="
+					+ (dict == null ? "" : dict.getId()) + "')");
 		}
 	}
 

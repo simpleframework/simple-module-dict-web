@@ -7,7 +7,7 @@ import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.ctx.trans.Transaction;
 import net.simpleframework.module.dict.Dict;
-import net.simpleframework.module.dict.EDictMark;
+import net.simpleframework.module.dict.Dict.EDictMark;
 import net.simpleframework.module.dict.IDictContext;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.web.DictLogRef;
@@ -97,7 +97,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		AjaxRequestBean ajaxRequest = addAjaxRequest(pp, "DictMgrPage_itemPage",
 				DictItemEditPage.class);
 		addWindowBean(pp, "DictMgrPage_itemWin", ajaxRequest).setTitle($m("DictMgrPage.4"))
-				.setHeight(340).setWidth(520);
+				.setHeight(350).setWidth(540);
 
 		// 树视图
 		ajaxRequest = addAjaxRequest(pp, "DictMgrPage_categoryPage", DictItemCategoryPage.class);

@@ -4,12 +4,13 @@ import static net.simpleframework.common.I18n.$m;
 
 import java.util.Map;
 
+import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.ctx.ModuleContextException;
 import net.simpleframework.module.dict.Dict;
-import net.simpleframework.module.dict.EDictMark;
+import net.simpleframework.module.dict.Dict.EDictMark;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictService;
 import net.simpleframework.mvc.IPageHandler.PageSelector;
@@ -39,6 +40,11 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	}
 
 	@Override
+	protected IDataQuery<?> categoryBeans(final ComponentParameter cp, final Object categoryId) {
+		return _dictService.queryChildren(_dictService.getBean(categoryId), cp.getLoginId());
+	}
+
+	@Override
 	public TreeNodes getCategoryTreenodes(final ComponentParameter cp, final TreeBean treeBean,
 			final TreeNode parent) {
 		final String imgBase = getImgBase(cp, DictCategoryHandler.class);
@@ -48,7 +54,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 			tn.setImage(imgBase + "dict_root.png");
 			tn.setContextMenu("none");
 			tn.setAcceptdrop(true);
-			tn.setJsClickCallback(CategoryTableLCTemplatePage.createTableRefresh("dictId=").toString());
+			setJsClickCallback(tn, null);
 			return TreeNodes.of(tn);
 		} else {
 			final Object obj = parent.getDataObject();
@@ -61,12 +67,19 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 					if (count > 0) {
 						parent.setPostfixText("(" + count + ")");
 					}
-					parent.setJsClickCallback(CategoryTableLCTemplatePage.createTableRefresh(
-							"dictId=" + dict.getId()).toString());
+					setJsClickCallback(parent, dict);
 				}
 			}
 		}
 		return super.getCategoryTreenodes(cp, treeBean, parent);
+	}
+
+	protected void setJsClickCallback(final TreeNode parent, final Dict dict) {
+		String params = "dictId=";
+		if (dict != null) {
+			params += dict.getId();
+		}
+		parent.setJsClickCallback(CategoryTableLCTemplatePage.createTableRefresh(params).toString());
 	}
 
 	@Override
