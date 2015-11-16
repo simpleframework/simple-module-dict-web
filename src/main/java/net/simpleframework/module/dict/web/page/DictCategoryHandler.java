@@ -11,6 +11,7 @@ import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.ctx.ModuleContextException;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.Dict.EDictMark;
+import net.simpleframework.module.dict.DictItemStat;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictService;
 import net.simpleframework.mvc.IPageHandler.PageSelector;
@@ -63,7 +64,10 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 				final EDictMark dictMark = dict.getDictMark();
 				parent.setImage(DictUtils.getIconPath(cp, dict));
 				if (dictMark != EDictMark.category) {
-					final int count = dict.getItems();
+					final DictItemStat stat = _dictItemStatService.getDictItemStat(dict.getId(), cp
+							.getLdept().getDomainId());
+					final DictItemStat stat2 = _dictItemStatService.getDictItemStat(dict.getId(), null);
+					final int count = stat.getNums() + stat2.getNums();
 					if (count > 0) {
 						parent.setPostfixText("(" + count + ")");
 					}
