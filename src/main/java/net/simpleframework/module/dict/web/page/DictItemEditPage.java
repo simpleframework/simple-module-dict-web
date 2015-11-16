@@ -7,7 +7,6 @@ import java.util.Map;
 import net.simpleframework.ado.query.DataQueryUtils;
 import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.Convert;
-import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.ctx.ModuleContextException;
@@ -69,10 +68,6 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 				.setDestroyOnClose(true);
 	}
 
-	protected ID getOrgId(final PageParameter pp) {
-		return null;
-	}
-
 	private DictItem getDictItem(final PageParameter pp) {
 		return _dictItemService.getBean(pp.getParameter("itemId"));
 	}
@@ -80,6 +75,14 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 	@Override
 	protected boolean isShowOptNext(final PageParameter pp) {
 		return getDictItem(pp) == null;
+	}
+
+	protected DictItem createDictItem(final PageParameter pp, final Dict dict) {
+		final DictItem item = _dictItemService.createBean();
+		item.setDictId(dict.getId());
+		item.setDomainId(DictUtils.getDomainId(pp));
+		item.setUserId(pp.getLoginId());
+		return item;
 	}
 
 	@Override
@@ -93,9 +96,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		DictItem item = getDictItem(cp);
 		final boolean insert = item == null;
 		if (insert) {
-			item = _dictItemService.createBean();
-			item.setDictId(dict.getId());
-			item.setDomainId(getPermissionOrg(cp).getId());
+			item = createDictItem(cp, dict);
 		}
 		item.setText(cp.getParameter("di_text"));
 		item.setCodeNo(cp.getParameter("di_codeNo"));
@@ -182,8 +183,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 				if (parent != null) {
 					pItem = (DictItem) parent.getDataObject();
 				}
-				dq = (pItem == null ? _dictItemService.queryRoot(dict, get(DictItemEditPage.class)
-						.getOrgId(cp)) : _dictItemService.queryChildren(pItem));
+				dq = (pItem == null ? _dictItemService.queryRoot(dict, DictUtils.getDomainId(cp))
+						: _dictItemService.queryChildren(pItem));
 			}
 			final TreeNodes nodes = TreeNodes.of();
 			DictItem item;

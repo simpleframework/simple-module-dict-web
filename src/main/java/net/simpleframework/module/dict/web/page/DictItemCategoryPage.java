@@ -4,7 +4,6 @@ import java.util.Map;
 
 import net.simpleframework.ado.query.DataQueryUtils;
 import net.simpleframework.ado.query.IDataQuery;
-import net.simpleframework.common.ID;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.Dict.EDictMark;
@@ -34,10 +33,6 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 		addCategoryBean(pp, "DictItemCategoryPage_items", DictItemCategory.class);
 	}
 
-	protected ID getOrgId(final PageParameter pp) {
-		return null;
-	}
-
 	public static class DictItemCategory extends CategoryBeanAwareHandler<DictItem> {
 
 		@Override
@@ -51,7 +46,6 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 			final Dict dict = DictUtils.getDict(cp);
 			if (dict != null) {
 				parameters.add("dictId", dict.getId());
-				cp.setRequestAttr("dictId", dict);
 			}
 			return parameters;
 		}
@@ -64,8 +58,8 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 			}
 			final IDictItemService service = getBeanService();
 			final DictItem parent = service.getBean(categoryId);
-			return parent == null ? service.queryRoot(dict,
-					get(DictItemCategoryPage.class).getOrgId(cp)) : service.queryChildren(parent);
+			return parent == null ? service.queryRoot(dict, DictUtils.getDomainId(cp)) : service
+					.queryChildren(parent);
 		}
 
 		@Override
@@ -104,8 +98,8 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 		public void setTreeBean(final ComponentParameter cp, final TreeBean treeBean) {
 			super.setTreeBean(cp, treeBean);
 			treeBean.setCookies(false);
-			if (_dictItemService.queryItems(DictUtils.getDict(cp),
-					get(DictItemCategoryPage.class).getOrgId(cp)).getCount() > 100) {
+			if (_dictItemService.queryItems(DictUtils.getDict(cp), DictUtils.getDomainId(cp))
+					.getCount() > 100) {
 				treeBean.setDynamicLoading(true);
 			}
 		}

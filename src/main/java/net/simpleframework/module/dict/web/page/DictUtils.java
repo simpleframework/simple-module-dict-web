@@ -1,8 +1,10 @@
 package net.simpleframework.module.dict.web.page;
 
+import net.simpleframework.common.ID;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.Dict.EDictMark;
 import net.simpleframework.module.dict.IDictContextAware;
+import net.simpleframework.mvc.AbstractMVCPage;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.template.AbstractTemplatePage;
@@ -17,6 +19,10 @@ public abstract class DictUtils implements IDictContextAware {
 
 	public static Dict getDict(final PageParameter pp) {
 		return AbstractTemplatePage.getCacheBean(pp, _dictService, "dictId");
+	}
+
+	public static ID getDomainId(final PageParameter pp) {
+		return AbstractMVCPage.getPermissionOrg(pp).getId();
 	}
 
 	public static String getIconPath(final ComponentParameter cp, final Dict dict) {

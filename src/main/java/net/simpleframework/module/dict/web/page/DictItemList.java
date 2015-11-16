@@ -12,7 +12,6 @@ import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.IDictContextAware;
-import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.BlockElement;
 import net.simpleframework.mvc.common.element.ButtonElement;
 import net.simpleframework.mvc.component.ComponentParameter;
@@ -34,7 +33,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 
 	@Override
 	public IDataQuery<?> createDataObjectQuery(final ComponentParameter cp) {
-		final ID orgId = getOrgId(cp);
+		final ID orgId = DictUtils.getDomainId(cp);
 		if (orgId != null) {
 			cp.addFormParameter("orgId", orgId);
 		}
@@ -43,10 +42,6 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 			cp.addFormParameter("dictId", dict.getId());
 		}
 		return _dictItemService.queryItems(dict, orgId);
-	}
-
-	protected ID getOrgId(final PageParameter pp) {
-		return null;
 	}
 
 	private static final MenuItems CONTEXT_MENUS = MenuItems

@@ -16,6 +16,7 @@ import net.simpleframework.module.dict.DictItemStat;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictService;
 import net.simpleframework.mvc.IPageHandler.PageSelector;
+import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ext.category.ctx.CategoryBeanAwareHandler;
@@ -43,7 +44,8 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 
 	@Override
 	protected IDataQuery<?> categoryBeans(final ComponentParameter cp, final Object categoryId) {
-		return _dictService.queryChildren(_dictService.getBean(categoryId), cp.getLoginId());
+		return _dictService
+				.queryChildren(_dictService.getBean(categoryId), DictUtils.getDomainId(cp));
 	}
 
 	@Override
@@ -65,13 +67,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 				final EDictMark dictMark = dict.getDictMark();
 				parent.setImage(DictUtils.getIconPath(cp, dict));
 				if (dictMark != EDictMark.category) {
-					DictItemStat stat = _dictItemStatService.getDictItemStat(dict.getId(), null);
-					int count = stat.getNums();
-					final ID domainId = cp.getLDomainId();
-					if (domainId != null) {
-						stat = _dictItemStatService.getDictItemStat(dict.getId(), domainId);
-						count += stat.getNums();
-					}
+					final int count = getNums(cp, dict);
 					if (count > 0) {
 						parent.setPostfixText("(" + count + ")");
 					}
@@ -88,6 +84,17 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 			params += dict.getId();
 		}
 		parent.setJsClickCallback(CategoryTableLCTemplatePage.createTableRefresh(params).toString());
+	}
+
+	protected int getNums(final PageParameter pp, final Dict dict) {
+		DictItemStat stat = _dictItemStatService.getDictItemStat(dict.getId(), null);
+		int count = stat.getNums();
+		final ID domainId = DictUtils.getDomainId(pp);
+		if (domainId != null) {
+			stat = _dictItemStatService.getDictItemStat(dict.getId(), domainId);
+			count += stat.getNums();
+		}
+		return count;
 	}
 
 	@Override
@@ -113,6 +120,9 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	@Override
 	protected void onSave_setProperties(final ComponentParameter cp, final Dict dict,
 			final boolean insert) {
+		if (insert) {
+			dict.setDomainId(DictUtils.getDomainId(cp));
+		}
 		final String dictMark = cp.getParameter("dict_mark");
 		if (StringUtils.hasText(dictMark)) {
 			dict.setDictMark(Convert.toEnum(EDictMark.class, dictMark));

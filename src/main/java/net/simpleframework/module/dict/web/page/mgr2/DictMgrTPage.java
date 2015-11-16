@@ -5,7 +5,6 @@ import static net.simpleframework.common.I18n.$m;
 import java.io.IOException;
 import java.util.Map;
 
-import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.ctx.trans.Transaction;
@@ -157,19 +156,9 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 			}
 			return super.getBeanProperty(cp, beanProperty);
 		}
-
-		@Override
-		protected ID getOrgId(final PageParameter pp) {
-			return getPermissionOrg(pp).getId();
-		}
 	}
 
 	public static class _DictItemEditPage extends DictItemEditPage {
-
-		@Override
-		protected ID getOrgId(final PageParameter pp) {
-			return getPermissionOrg(pp).getId();
-		}
 
 		@Override
 		protected JavascriptForward jsTableRefresh(final Dict dict) {
@@ -178,11 +167,6 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 	}
 
 	public static class _DictItemCategoryPage extends DictItemCategoryPage {
-
-		@Override
-		protected ID getOrgId(final PageParameter pp) {
-			return getPermissionOrg(pp).getId();
-		}
 	}
 
 	static JavascriptForward _jsTableRefresh(final Dict dict) {
