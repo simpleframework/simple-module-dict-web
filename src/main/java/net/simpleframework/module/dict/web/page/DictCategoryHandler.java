@@ -9,9 +9,9 @@ import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
-import net.simpleframework.ctx.ModuleContextException;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.Dict.EDictMark;
+import net.simpleframework.module.dict.DictException;
 import net.simpleframework.module.dict.DictItemStat;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictService;
@@ -133,7 +133,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	protected void onDelete_assert(final ComponentParameter cp, final Dict dict) {
 		super.onDelete_assert(cp, dict);
 		if (dict.getDictMark() == EDictMark.builtIn) {
-			throw ModuleContextException.of($m("DictCategoryHandler.4"));
+			throw DictException.of($m("DictCategoryHandler.4"));
 		}
 	}
 

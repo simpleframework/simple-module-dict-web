@@ -9,10 +9,10 @@ import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
-import net.simpleframework.ctx.ModuleContextException;
 import net.simpleframework.ctx.trans.Transaction;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.Dict.EDictMark;
+import net.simpleframework.module.dict.DictException;
 import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.IDictContext;
 import net.simpleframework.module.dict.IDictContextAware;
@@ -90,7 +90,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 	public JavascriptForward onSave(final ComponentParameter cp) {
 		final Dict dict = _dictService.getBean(cp.getParameter("di_dictId"));
 		if (dict == null) {
-			throw ModuleContextException.of($m("DictItemPage.2"));
+			throw DictException.of($m("DictItemPage.2"));
 		}
 
 		DictItem item = getDictItem(cp);
