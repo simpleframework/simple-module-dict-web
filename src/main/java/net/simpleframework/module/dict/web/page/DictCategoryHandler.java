@@ -6,6 +6,7 @@ import java.util.Map;
 
 import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.Convert;
+import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.ctx.ModuleContextException;
@@ -64,10 +65,13 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 				final EDictMark dictMark = dict.getDictMark();
 				parent.setImage(DictUtils.getIconPath(cp, dict));
 				if (dictMark != EDictMark.category) {
-					final DictItemStat stat = _dictItemStatService.getDictItemStat(dict.getId(), cp
-							.getLdept().getDomainId());
-					final DictItemStat stat2 = _dictItemStatService.getDictItemStat(dict.getId(), null);
-					final int count = stat.getNums() + stat2.getNums();
+					DictItemStat stat = _dictItemStatService.getDictItemStat(dict.getId(), null);
+					int count = stat.getNums();
+					final ID domainId = cp.getLDomainId();
+					if (domainId != null) {
+						stat = _dictItemStatService.getDictItemStat(dict.getId(), domainId);
+						count += stat.getNums();
+					}
 					if (count > 0) {
 						parent.setPostfixText("(" + count + ")");
 					}
