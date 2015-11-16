@@ -9,6 +9,7 @@ import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
+import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.Dict.EDictMark;
 import net.simpleframework.module.dict.DictException;
@@ -17,6 +18,7 @@ import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictService;
 import net.simpleframework.mvc.IPageHandler.PageSelector;
 import net.simpleframework.mvc.PageParameter;
+import net.simpleframework.mvc.common.element.SpanElement;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ext.category.ctx.CategoryBeanAwareHandler;
@@ -65,6 +67,15 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 			if (obj instanceof Dict) {
 				final Dict dict = (Dict) obj;
 				final EDictMark dictMark = dict.getDictMark();
+
+				final ID domainId = DictUtils.getDomainId(cp);
+				if (domainId == null) {
+					final PermissionDept dept = cp.getPermission().getDept(dict.getDomainId());
+					if (dept.getId() != null) {
+						parent.setText("(" + SpanElement.color999(dept) + ") " + parent.getText());
+					}
+				}
+
 				parent.setImage(DictUtils.getIconPath(cp, dict));
 				if (dictMark != EDictMark.category) {
 					final int count = getNums(cp, dict);
