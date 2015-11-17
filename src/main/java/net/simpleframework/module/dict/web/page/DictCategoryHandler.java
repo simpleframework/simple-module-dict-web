@@ -51,6 +51,11 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	}
 
 	@Override
+	public Map<String, Object> getFormParameters(final ComponentParameter cp) {
+		return DictUtils.setDomainId(cp, super.getFormParameters(cp));
+	}
+
+	@Override
 	public TreeNodes getCategoryTreenodes(final ComponentParameter cp, final TreeBean treeBean,
 			final TreeNode parent) {
 		final String imgBase = getImgBase(cp, DictCategoryHandler.class);
