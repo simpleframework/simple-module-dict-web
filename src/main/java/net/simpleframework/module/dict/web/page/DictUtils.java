@@ -1,7 +1,5 @@
 package net.simpleframework.module.dict.web.page;
 
-import java.util.Map;
-
 import net.simpleframework.common.ID;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.Dict.EDictMark;
@@ -25,15 +23,6 @@ public abstract class DictUtils implements IDictContextAware {
 
 	public static ID getDomainId(final PageParameter pp) {
 		return AbstractMVCPage.getPermissionOrg(pp).getId();
-	}
-
-	public static Map<String, Object> setDomainId(final PageParameter pp,
-			final Map<String, Object> params) {
-		final ID orgId = DictUtils.getDomainId(pp);
-		if (orgId != null) {
-			params.put("orgId", orgId);
-		}
-		return params;
 	}
 
 	public static String getIconPath(final ComponentParameter cp, final Dict dict) {

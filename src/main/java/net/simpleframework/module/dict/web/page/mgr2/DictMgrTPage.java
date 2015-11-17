@@ -5,7 +5,6 @@ import static net.simpleframework.common.I18n.$m;
 import java.io.IOException;
 import java.util.Map;
 
-import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.ctx.trans.Transaction;
@@ -121,14 +120,9 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 
 	@Override
 	public ElementList getRightElements(final PageParameter pp) {
-		String params = "dictId=";
-		final ID orgId = DictUtils.getDomainId(pp);
-		if (orgId != null) {
-			params = "orgId=" + orgId + "&" + params;
-		}
 		return ElementList
 				.of(LinkButton.of($m("DictMgrPage.5")).setOnclick(
-						"$Actions['DictMgrPage_itemWin']('" + params + "' + $F('dictId'));"))
+						"$Actions['DictMgrPage_itemWin']('dictId=' + $F('dictId'));"))
 				.append(SpanElement.SPACE)
 				.append(
 						LinkButton.deleteBtn().setOnclick(
@@ -136,7 +130,7 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 				.append(SpanElement.SPACE)
 				.append(
 						new LinkButton($m("DictMgrPage.7")).setIconClass(Icon.folder_open).setOnclick(
-								"$Actions['DictMgrTPage_categoryWin']('" + params + "' + $F('dictId'));"));
+								"$Actions['DictMgrTPage_categoryWin']('dictId=' + $F('dictId'));"));
 	}
 
 	public static class _DictCategoryHandler extends DictCategoryHandler {

@@ -47,7 +47,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 			if (dict != null) {
 				parameters.add("dictId", dict.getId());
 			}
-			return DictUtils.setDomainId(cp, parameters);
+			return parameters;
 		}
 
 		@Override

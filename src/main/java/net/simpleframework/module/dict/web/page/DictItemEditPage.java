@@ -147,11 +147,6 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		private AbstractComponentBean categoryBean;
 
 		@Override
-		public Map<String, Object> getFormParameters(final ComponentParameter cp) {
-			return DictUtils.setDomainId(cp, super.getFormParameters(cp));
-		}
-
-		@Override
 		public TreeNodes getTreenodes(final ComponentParameter cp, final TreeNode parent) {
 			if (categoryBean == null) {
 				categoryBean = get(DictMgrPage.class).getCategoryBean();
@@ -187,7 +182,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 			if (dict != null) {
 				parameters.put("dictId", dict.getId());
 			}
-			return DictUtils.setDomainId(cp, parameters);
+			return parameters;
 		}
 
 		@Override
@@ -222,22 +217,13 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 
 	@Override
 	protected TableRows getTableRows(final PageParameter pp) {
-		final InputElement orgId = InputElement.hidden("orgId");
-		final ID domainId = DictUtils.getDomainId(pp);
-		String params = "orgId=";
-		if (domainId != null) {
-			orgId.setVal(domainId);
-			params += domainId;
-		}
-
 		final InputElement itemId = InputElement.hidden("itemId");
 		final InputElement di_text = new InputElement("di_text");
 		final InputElement di_codeNo = new InputElement("di_codeNo");
 
 		final TextButton di_parentText = new TextButton("di_parentText")
 				.setHiddenField("di_parentId").setOnclick(
-						"$Actions['DictItemEditPage_itemParentSelect']('" + params
-								+ "&dictId=' + $F('di_dictId'))");
+						"$Actions['DictItemEditPage_itemParentSelect']('dictId=' + $F('di_dictId'))");
 
 		final InputElement di_ext1 = new InputElement("di_ext1");
 		final InputElement di_ext2 = new InputElement("di_ext2");
@@ -266,7 +252,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		}
 
 		final TextButton di_dictText = new TextButton("di_dictText").setHiddenField("di_dictId")
-				.setOnclick("$Actions['DictItemEditPage_dictSelect']('" + params + "');");
+				.setOnclick("$Actions['DictItemEditPage_dictSelect']();");
 		final Dict dict = _dictService.getBean(item != null ? item.getDictId() : pp
 				.getParameter("dictId"));
 		if (dict != null) {
@@ -275,8 +261,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		}
 
 		final TableRow r1 = new TableRow(
-				new RowField($m("DictMgrPage.1"), orgId, itemId, di_text).setStarMark(true),
-				new RowField($m("DictItemPage.0"), di_dictText).setStarMark(true));
+				new RowField($m("DictMgrPage.1"), itemId, di_text).setStarMark(true), new RowField(
+						$m("DictItemPage.0"), di_dictText).setStarMark(true));
 		final TableRow r2 = new TableRow(
 				new RowField($m("DictMgrPage.2"), di_codeNo).setStarMark(true), new RowField(
 						$m("DictItemPage.1"), di_parentText));

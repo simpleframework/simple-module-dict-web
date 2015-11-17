@@ -51,11 +51,6 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	}
 
 	@Override
-	public Map<String, Object> getFormParameters(final ComponentParameter cp) {
-		return DictUtils.setDomainId(cp, super.getFormParameters(cp));
-	}
-
-	@Override
 	public TreeNodes getCategoryTreenodes(final ComponentParameter cp, final TreeBean treeBean,
 			final TreeNode parent) {
 		final String imgBase = getImgBase(cp, DictCategoryHandler.class);
@@ -103,14 +98,16 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	}
 
 	protected int getNums(final PageParameter pp, final Dict dict) {
-		DictItemStat stat = _dictItemStatService.getDictItemStat(dict.getId(), null);
-		int count = stat.getNums();
 		final ID domainId = DictUtils.getDomainId(pp);
 		if (domainId != null) {
+			DictItemStat stat = _dictItemStatService.getDictItemStat(dict.getId(), null);
+			int count = stat.getNums();
 			stat = _dictItemStatService.getDictItemStat(dict.getId(), domainId);
 			count += stat.getNums();
+			return count;
+		} else {
+			return _dictItemStatService.getAllNums(dict.getId());
 		}
-		return count;
 	}
 
 	@Override
