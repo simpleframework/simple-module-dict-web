@@ -88,7 +88,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 			} else {
 				if (parent.getDataObject() instanceof DictItem) {
 					final String imgBase = getImgBase(cp, DictItemCategoryPage.class);
-					parent.setImage(imgBase + "dict-item.png");
+					parent.setImage(imgBase + "dict_item.png");
 				}
 			}
 			return super.getCategoryTreenodes(cp, treeBean, parent);

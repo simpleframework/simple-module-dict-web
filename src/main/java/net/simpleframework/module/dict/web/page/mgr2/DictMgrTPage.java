@@ -61,12 +61,11 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 				.setPagerBarLayout(EPagerBarLayout.top).setContainerId("idDictMgrTPage_tbl")
 				.setHandlerClass(_DictItemList.class);
 		tablePager
+				.addColumn(TablePagerColumn.ICON())
 				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
 				.addColumn(new TablePagerColumn("codeNo", $m("DictMgrPage.2")))
 				.addColumn(
 						new TablePagerColumn("parentId", $m("DictMgrPage.8"), 100).setFilterSort(false))
-				.addColumn(
-						new TablePagerColumn("itemMark", $m("DictMgrPage.3"), 70).setFilterSort(false))
 				.addColumn(TablePagerColumn.OPE(70));
 
 		// 字典条目

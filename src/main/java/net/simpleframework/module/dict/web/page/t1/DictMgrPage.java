@@ -74,6 +74,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		// 字典条目
 		final TablePagerBean tablePager = addTablePagerBean(pp, DictItemList.class);
 		tablePager
+				.addColumn(TablePagerColumn.ICON())
 				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
 				.addColumn(new TablePagerColumn("codeNo", $m("DictMgrPage.2")))
 				.addColumn(new TablePagerColumn("domainId", $m("DictMgrPage.9"), 200) {
@@ -88,8 +89,6 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 				}.setFilterAdvClick("$Actions['DictMgrPage_deptSelect']();"))
 				.addColumn(
 						new TablePagerColumn("parentId", $m("DictMgrPage.8"), 100).setFilterSort(false))
-				.addColumn(
-						new TablePagerColumn("itemMark", $m("DictMgrPage.3"), 70).setFilterSort(false))
 				.addColumn(TablePagerColumn.OPE(70))
 				.setJsLoadedCallback("$Actions['DictMgrPage_Tip']();");
 

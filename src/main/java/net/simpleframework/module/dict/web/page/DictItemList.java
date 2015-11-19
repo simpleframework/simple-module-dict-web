@@ -12,8 +12,11 @@ import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.IDictContextAware;
+import net.simpleframework.mvc.common.element.AbstractElement;
 import net.simpleframework.mvc.common.element.BlockElement;
 import net.simpleframework.mvc.common.element.ButtonElement;
+import net.simpleframework.mvc.common.element.EVerticalAlign;
+import net.simpleframework.mvc.common.element.ImageElement;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ui.menu.MenuBean;
 import net.simpleframework.mvc.component.ui.menu.MenuItem;
@@ -103,8 +106,16 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 					sb.append(BlockElement.tipText(desc));
 				}
 
-				kv.add("text", sb.toString()).add("codeNo", item.getCodeNo())
-						.add("itemMark", item.getItemMark());
+				AbstractElement<?> img = null;
+				if (!cp.isLmanager() && item.getDomainId() == null) {
+					img = new ImageElement(cp.getCssResourceHomePath(DictItemList.class)
+							+ "/images/dict_lock.png").setVerticalAlign(EVerticalAlign.middle);
+				}
+				if (img != null) {
+					kv.add(TablePagerColumn.ICON, img);
+				}
+
+				kv.add("text", sb.toString()).add("codeNo", item.getCodeNo());
 				final PermissionDept dept = cp.getPermission().getDept(item.getDomainId());
 				if (dept.getId() != null) {
 					kv.add("domainId", dept);
