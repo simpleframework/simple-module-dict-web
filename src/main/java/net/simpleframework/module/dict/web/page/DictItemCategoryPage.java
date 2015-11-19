@@ -6,7 +6,6 @@ import net.simpleframework.ado.query.DataQueryUtils;
 import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.module.dict.Dict;
-import net.simpleframework.module.dict.Dict.EDictMark;
 import net.simpleframework.module.dict.DictItem;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictItemService;
@@ -78,10 +77,11 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 					node.setText(dict.getText());
 					node.setAcceptdrop(true);
 					node.setOpened(true);
-					final String imgBase = getImgBase(cp, DictItemCategoryPage.class);
-					final EDictMark dictMark = dict.getDictMark();
-					node.setImage(imgBase
-							+ (dictMark == EDictMark.builtIn ? "dict_lock.png" : "dict.png"));
+					// final String imgBase = getImgBase(cp,
+					// DictItemCategoryPage.class);
+					// final EDictMark dictMark = dict.getDictMark();
+
+					node.setImage(DictUtils.getIconPath(cp, dict));
 					nodes.add(node);
 					return nodes;
 				}

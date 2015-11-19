@@ -1,9 +1,6 @@
 package net.simpleframework.module.dict.web.page;
 
 import static net.simpleframework.common.I18n.$m;
-
-import java.util.Map;
-
 import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
@@ -12,11 +9,9 @@ import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.Dict.EDictMark;
-import net.simpleframework.module.dict.DictException;
 import net.simpleframework.module.dict.DictItemStat;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictService;
-import net.simpleframework.mvc.IPageHandler.PageSelector;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.SpanElement;
 import net.simpleframework.mvc.component.AbstractComponentBean;
@@ -113,21 +108,38 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	@Override
 	public TreeNodes getCategoryDictTreenodes(final ComponentParameter cp, final TreeBean treeBean,
 			final TreeNode parent) {
-		final Object dict;
-		if (parent != null && (dict = parent.getDataObject()) instanceof Dict) {
-			parent.setImage(DictUtils.getIconPath(cp, (Dict) dict));
+		final Object o;
+		if (parent != null && (o = parent.getDataObject()) instanceof Dict) {
+			parent.setImage(DictUtils.getIconPath(cp, (Dict) o));
 		}
+		cp.setRequestAttr("_dict", Boolean.TRUE);
 		return super.getCategoryTreenodes(cp, treeBean, parent);
 	}
 
 	@Override
-	protected void onLoaded_dataBinding(final ComponentParameter cp,
-			final Map<String, Object> dataBinding, final PageSelector selector, final Dict dict) {
-		if (dict != null) {
-			dataBinding.put("dict_mark", dict.getDictMark());
-			// 该字段不能编辑
-			selector.disabledSelector = "#dict_mark";
+	protected TreeNode createTreeNode(final ComponentParameter cp, final TreeBean treeBean,
+			final TreeNode parent, final Object bean) {
+		final Boolean b = (Boolean) cp.getRequestAttr("_dict");
+		if (b != null && b.booleanValue()) {
+			if (((Dict) bean).getDictMark() != EDictMark.category) {
+				return null;
+			}
 		}
+		return super.createTreeNode(cp, treeBean, parent, bean);
+	}
+
+	@Override
+	protected Dict getParent_onLoaded(final ComponentParameter cp) {
+		final IDictService mgr = getBeanService();
+		Dict parent = mgr.getBean(cp.getParameter(PARAM_CATEGORY_PARENTID));
+		while (parent != null) {
+			if (parent.getDictMark() == EDictMark.category) {
+				return parent;
+			} else {
+				parent = mgr.getBean(parent.getParentId());
+			}
+		}
+		return parent;
 	}
 
 	@Override
@@ -139,14 +151,6 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 		final String dictMark = cp.getParameter("dict_mark");
 		if (StringUtils.hasText(dictMark)) {
 			dict.setDictMark(Convert.toEnum(EDictMark.class, dictMark));
-		}
-	}
-
-	@Override
-	protected void onDelete_assert(final ComponentParameter cp, final Dict dict) {
-		super.onDelete_assert(cp, dict);
-		if (dict.getDictMark() == EDictMark.builtIn) {
-			throw DictException.of($m("DictCategoryHandler.4"));
 		}
 	}
 
@@ -164,10 +168,13 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	@Override
 	protected AbstractComponentBean categoryEdit_createPropEditor(final ComponentParameter cp) {
 		final PropEditorBean editor = (PropEditorBean) super.categoryEdit_createPropEditor(cp);
-		editor.getFormFields().add(
-				2,
-				new PropField($m("DictCategoryHandler.2")).addComponents(InputComp.select("dict_mark")
-						.setDefaultEnumValue(EDictMark.normal, EDictMark.category)));
+		final Dict dict = _dictService.getBean(cp.getParameter(PARAM_CATEGORY_ID));
+		if (dict == null) {
+			editor.getFormFields().add(
+					2,
+					new PropField($m("DictCategoryHandler.2")).addComponents(InputComp.select(
+							"dict_mark").setDefaultEnumValue(EDictMark.normal, EDictMark.category)));
+		}
 		return editor;
 	}
 }

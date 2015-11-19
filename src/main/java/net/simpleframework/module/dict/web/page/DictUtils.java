@@ -30,11 +30,10 @@ public abstract class DictUtils implements IDictContextAware {
 		final EDictMark dictMark = dict.getDictMark();
 		if (dictMark == EDictMark.category) {
 			return imgBase + "dict_c.png";
-		} else if (dictMark == EDictMark.normal) {
-			return imgBase + "dict.png";
-		} else if (dictMark == EDictMark.builtIn) {
+		} else if (!cp.isLmanager() && dict.getDomainId() == null) {
+			// 非管理员
 			return imgBase + "dict_lock.png";
 		}
-		return null;
+		return imgBase + "dict.png";
 	}
 }
