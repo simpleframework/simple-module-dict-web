@@ -96,7 +96,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		AjaxRequestBean ajaxRequest = addAjaxRequest(pp, "DictMgrPage_itemPage",
 				DictItemEditPage.class);
 		addWindowBean(pp, "DictMgrPage_itemWin", ajaxRequest).setTitle($m("DictMgrPage.4"))
-				.setHeight(350).setWidth(540);
+				.setHeight(360).setWidth(540);
 
 		// 树视图
 		ajaxRequest = addAjaxRequest(pp, "DictMgrPage_categoryPage", DictItemCategoryPage.class);

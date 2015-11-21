@@ -10,6 +10,7 @@ import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
+import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.ctx.trans.Transaction;
 import net.simpleframework.module.dict.Dict;
 import net.simpleframework.module.dict.Dict.EDictMark;
@@ -19,6 +20,7 @@ import net.simpleframework.module.dict.IDictContext;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.web.page.mgr2.DictMgrTPage;
 import net.simpleframework.module.dict.web.page.t1.DictMgrPage;
+import net.simpleframework.mvc.AbstractMVCPage;
 import net.simpleframework.mvc.JavascriptForward;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.InputElement;
@@ -31,6 +33,7 @@ import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.base.validation.EValidatorMethod;
 import net.simpleframework.mvc.component.base.validation.Validator;
 import net.simpleframework.mvc.component.ext.category.ICategoryHandler;
+import net.simpleframework.mvc.component.ext.deptselect.DeptSelectBean;
 import net.simpleframework.mvc.component.ui.dictionary.DictionaryBean;
 import net.simpleframework.mvc.component.ui.dictionary.DictionaryTreeHandler;
 import net.simpleframework.mvc.component.ui.tree.TreeBean;
@@ -70,6 +73,10 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 				.addTreeRef(pp, "DictItemEditPage_itemParentTree").setBindingId("di_parentId")
 				.setBindingText("di_parentText").setTitle($m("DictItemPage.1")).setHeight(300)
 				.setDestroyOnClose(true);
+
+		// 机构选取
+		addComponentBean(pp, "DictItemEditPage_deptSelect", DeptSelectBean.class).setOrg(true)
+				.setBindingId("di_domainId").setBindingText("di_domainText");
 	}
 
 	private DictItem getDictItem(final PageParameter pp) {
@@ -270,7 +277,23 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 				new RowField($m("DictItemEditPage.1"), di_ext2));
 		final TableRow r4 = new TableRow(new RowField($m("DictItemEditPage.2"), di_ext3),
 				new RowField($m("DictItemEditPage.3"), di_ext4));
+		final TableRows rows = TableRows.of(r1, r2, r3, r4);
+		if (pp.isLmanager()) {
+			final TextButton di_domainText = new TextButton("di_domainText").setHiddenField(
+					"di_domainId").setOnclick("$Actions['DictItemEditPage_deptSelect']();");
+			PermissionDept org = null;
+			if (item != null) {
+				org = pp.getPermission().getDept(item.getDomainId());
+			} else {
+				org = AbstractMVCPage.getPermissionOrg(pp);
+			}
+			if (org != null) {
+				di_domainText.getHiddenField().setVal(org.getId());
+				di_domainText.setVal(org.getText());
+			}
+			rows.append(new TableRow(new RowField($m("DictCategoryHandler.4"), di_domainText)));
+		}
 		final TableRow r5 = new TableRow(new RowField($m("Description"), di_description));
-		return TableRows.of(r1, r2, r3, r4, r5);
+		return rows.append(r5);
 	}
 }

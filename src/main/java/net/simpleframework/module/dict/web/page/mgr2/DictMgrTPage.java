@@ -72,7 +72,7 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 		AjaxRequestBean ajaxRequest = addAjaxRequest(pp, "DictMgrPage_itemPage",
 				_DictItemEditPage.class);
 		addWindowBean(pp, "DictMgrPage_itemWin", ajaxRequest).setTitle($m("DictMgrPage.4"))
-				.setHeight(350).setWidth(540);
+				.setHeight(360).setWidth(540);
 
 		// 删除
 		addDeleteAjaxRequest(pp, "DictMgrPage_delete");
