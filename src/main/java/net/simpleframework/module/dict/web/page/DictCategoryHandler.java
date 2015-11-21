@@ -12,14 +12,18 @@ import net.simpleframework.module.dict.Dict.EDictMark;
 import net.simpleframework.module.dict.DictItemStat;
 import net.simpleframework.module.dict.IDictContextAware;
 import net.simpleframework.module.dict.IDictService;
+import net.simpleframework.mvc.AbstractMVCPage;
 import net.simpleframework.mvc.PageParameter;
+import net.simpleframework.mvc.common.element.EElementEvent;
 import net.simpleframework.mvc.common.element.SpanElement;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.ext.category.ctx.CategoryBeanAwareHandler;
+import net.simpleframework.mvc.component.ext.deptselect.DeptSelectBean;
 import net.simpleframework.mvc.component.ui.propeditor.InputComp;
 import net.simpleframework.mvc.component.ui.propeditor.PropEditorBean;
 import net.simpleframework.mvc.component.ui.propeditor.PropField;
+import net.simpleframework.mvc.component.ui.propeditor.PropFields;
 import net.simpleframework.mvc.component.ui.tree.TreeBean;
 import net.simpleframework.mvc.component.ui.tree.TreeNode;
 import net.simpleframework.mvc.component.ui.tree.TreeNodes;
@@ -152,6 +156,10 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 		if (StringUtils.hasText(dictMark)) {
 			dict.setDictMark(Convert.toEnum(EDictMark.class, dictMark));
 		}
+		if (cp.isLmanager()) {
+			final String domain_id = cp.getParameter("domain_id");
+			dict.setDomainId(StringUtils.hasText(domain_id) ? ID.of(domain_id) : null);
+		}
 	}
 
 	@Override
@@ -162,15 +170,38 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 	@Override
 	public KVMap categoryEdit_attri(final ComponentParameter cp) {
 		return ((KVMap) super.categoryEdit_attri(cp)).add(window_title, $m("DictCategoryHandler.3"))
-				.add(window_height, 320);
+				.add(window_height, 360);
 	}
 
 	@Override
 	protected AbstractComponentBean categoryEdit_createPropEditor(final ComponentParameter cp) {
-		final PropEditorBean editor = (PropEditorBean) super.categoryEdit_createPropEditor(cp);
 		final Dict dict = _dictService.getBean(cp.getParameter(PARAM_CATEGORY_ID));
+		final PropEditorBean editor = (PropEditorBean) super.categoryEdit_createPropEditor(cp);
+		final PropFields fields = editor.getFormFields();
+		if (cp.isLmanager()) {
+			cp.addComponentBean("DictCategoryHandler_deptSelect", DeptSelectBean.class).setOrg(true)
+					.setBindingId("domain_id").setBindingText("domain_text");
+
+			final InputComp domain_id = InputComp.hidden("domain_id");
+			final InputComp domain_text = InputComp.textButton("domain_text")
+					.setAttributes("readonly")
+					.addEvent(EElementEvent.click, "$Actions['DictCategoryHandler_deptSelect']();");
+			PermissionDept org = null;
+			if (dict != null) {
+				org = cp.getPermission().getDept(dict.getDomainId());
+			} else {
+				org = AbstractMVCPage.getPermissionOrg(cp);
+			}
+			if (org != null) {
+				domain_id.setDefaultValue(org.getId());
+				domain_text.setDefaultValue(org.getText());
+			}
+			fields.add(2,
+					new PropField($m("DictCategoryHandler.4")).addComponents(domain_id, domain_text));
+		}
+
 		if (dict == null) {
-			editor.getFormFields().add(
+			fields.add(
 					2,
 					new PropField($m("DictCategoryHandler.2")).addComponents(InputComp.select(
 							"dict_mark").setDefaultEnumValue(EDictMark.normal, EDictMark.category)));
