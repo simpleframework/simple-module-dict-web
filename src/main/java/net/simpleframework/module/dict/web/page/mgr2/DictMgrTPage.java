@@ -105,19 +105,6 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 	}
 
 	@Override
-	protected String toHtml(final PageParameter pp, final Map<String, Object> variables,
-			final String currentVariable) throws IOException {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("<div class='DictMgrTPage'>");
-		sb.append("	<table width='100%'><tr>");
-		sb.append("  <td valign='top' class='ltree'><div id='idDictMgrTPage_category'></div></td>");
-		sb.append("  <td valign='top' class='rtbl'><div id='idDictMgrTPage_tbl'></div></td>");
-		sb.append(" </tr></table>");
-		sb.append("</div>");
-		return sb.toString();
-	}
-
-	@Override
 	public ElementList getRightElements(final PageParameter pp) {
 		return ElementList
 				.of(LinkButton.of($m("DictMgrPage.5")).setOnclick(
@@ -130,6 +117,19 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 				.append(
 						new LinkButton($m("DictMgrPage.7")).setIconClass(Icon.folder_open).setOnclick(
 								"$Actions['DictMgrTPage_categoryWin']('dictId=' + $F('dictId'));"));
+	}
+
+	@Override
+	protected String toHtml(final PageParameter pp, final Map<String, Object> variables,
+			final String currentVariable) throws IOException {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("<div class='DictMgrTPage'>");
+		sb.append("	<table width='100%'><tr>");
+		sb.append("  <td valign='top' class='ltree'><div id='idDictMgrTPage_category'></div></td>");
+		sb.append("  <td valign='top' class='rtbl'><div id='idDictMgrTPage_tbl'></div></td>");
+		sb.append(" </tr></table>");
+		sb.append("</div>");
+		return sb.toString();
 	}
 
 	public static class _DictCategoryHandler extends DictCategoryHandler {
