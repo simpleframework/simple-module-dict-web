@@ -17,7 +17,7 @@ import net.simpleframework.module.dict.web.IDictWebContext;
 import net.simpleframework.module.dict.web.page.DictCategoryHandler;
 import net.simpleframework.module.dict.web.page.DictItemCategoryPage;
 import net.simpleframework.module.dict.web.page.DictItemEditPage;
-import net.simpleframework.module.dict.web.page.DictItemList;
+import net.simpleframework.module.dict.web.page.DictItemTbl;
 import net.simpleframework.module.dict.web.page.DictUtils;
 import net.simpleframework.module.dict.web.page.t1.DictMgrPage._NavigationTitleCallback;
 import net.simpleframework.mvc.IForward;
@@ -59,7 +59,7 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 		final TablePagerBean tablePager = (TablePagerBean) addComponentBean(pp, "DictMgrTPage_tbl",
 				TablePagerBean.class).setShowLineNo(true).setPageItems(30)
 				.setPagerBarLayout(EPagerBarLayout.top).setContainerId("idDictMgrTPage_tbl")
-				.setHandlerClass(_DictItemList.class);
+				.setHandlerClass(_DictItemTbl.class);
 		tablePager
 				.addColumn(TablePagerColumn.ICON())
 				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
@@ -140,7 +140,7 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 		}
 	}
 
-	public static class _DictItemList extends DictItemList {
+	public static class _DictItemTbl extends DictItemTbl {
 
 		@Override
 		public Object getBeanProperty(final ComponentParameter cp, final String beanProperty) {

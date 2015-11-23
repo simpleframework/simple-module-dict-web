@@ -15,7 +15,7 @@ import net.simpleframework.module.dict.web.IDictWebContext;
 import net.simpleframework.module.dict.web.page.DictCategoryHandler;
 import net.simpleframework.module.dict.web.page.DictItemCategoryPage;
 import net.simpleframework.module.dict.web.page.DictItemEditPage;
-import net.simpleframework.module.dict.web.page.DictItemList;
+import net.simpleframework.module.dict.web.page.DictItemTbl;
 import net.simpleframework.module.dict.web.page.DictUtils;
 import net.simpleframework.mvc.IForward;
 import net.simpleframework.mvc.PageMapping;
@@ -72,7 +72,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 								+ "']('filter_cur_col=domainId&filter=%3D;' + selects[0].id);return true;");
 
 		// 字典条目
-		final TablePagerBean tablePager = addTablePagerBean(pp, DictItemList.class);
+		final TablePagerBean tablePager = addTablePagerBean(pp, DictItemTbl.class);
 		tablePager
 				.addColumn(TablePagerColumn.ICON())
 				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
@@ -179,7 +179,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 
 		@Override
 		protected String getRootText() {
-			return $m("DictItemList.0");
+			return $m("DictItemTbl.0");
 		}
 
 		@Override

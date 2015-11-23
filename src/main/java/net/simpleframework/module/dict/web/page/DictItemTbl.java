@@ -32,7 +32,7 @@ import net.simpleframework.mvc.template.t1.ext.LCTemplateTablePagerHandler;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class DictItemList extends LCTemplateTablePagerHandler implements IDictContextAware {
+public class DictItemTbl extends LCTemplateTablePagerHandler implements IDictContextAware {
 
 	@Override
 	public IDataQuery<?> createDataObjectQuery(final ComponentParameter cp) {
@@ -87,7 +87,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 					final TablePagerColumns columns = new TablePagerColumns(
 							super.getTablePagerColumns(cp));
 					columns
-							.add(4, new TablePagerColumn("dictId", $m("DictItemList.1"), 100)
+							.add(4, new TablePagerColumn("dictId", $m("DictItemTbl.1"), 100)
 									.setFilterSort(false));
 					return columns;
 				}
@@ -108,7 +108,7 @@ public class DictItemList extends LCTemplateTablePagerHandler implements IDictCo
 
 				AbstractElement<?> img = null;
 				if (!cp.isLmanager() && item.getDomainId() == null) {
-					img = new ImageElement(cp.getCssResourceHomePath(DictItemList.class)
+					img = new ImageElement(cp.getCssResourceHomePath(DictItemTbl.class)
 							+ "/images/dict_lock.png").setVerticalAlign(EVerticalAlign.middle);
 				}
 				if (img != null) {
