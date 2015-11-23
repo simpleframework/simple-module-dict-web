@@ -86,9 +86,8 @@ public class DictItemTbl extends LCTemplateTablePagerHandler implements IDictCon
 				if (dict == null) {
 					final TablePagerColumns columns = new TablePagerColumns(
 							super.getTablePagerColumns(cp));
-					columns
-							.add(4, new TablePagerColumn("dictId", $m("DictItemTbl.1"), 100)
-									.setFilterSort(false));
+					columns.add(4,
+							new TablePagerColumn("dictId", $m("DictItemTbl.1"), 100).setFilterSort(false));
 					return columns;
 				}
 				return super.getTablePagerColumns(cp);
