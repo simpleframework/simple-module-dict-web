@@ -88,12 +88,12 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 		return super.getCategoryTreenodes(cp, treeBean, parent);
 	}
 
-	protected void setJsClickCallback(final TreeNode parent, final Dict dict) {
+	protected void setJsClickCallback(final TreeNode tn, final Dict dict) {
 		String params = "dictId=";
 		if (dict != null) {
 			params += dict.getId();
 		}
-		parent.setJsClickCallback(CategoryTableLCTemplatePage.createTableRefresh(params).toString());
+		tn.setJsClickCallback(CategoryTableLCTemplatePage.createTableRefresh(params).toString());
 	}
 
 	protected int getNums(final PageParameter pp, final Dict dict) {
