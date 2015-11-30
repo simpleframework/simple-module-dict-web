@@ -172,14 +172,13 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 	}
 
 	public static class _NavigationTitleCallback extends NavigationTitleCallback<Dict> {
-		@Override
-		protected Dict get(final Object id) {
-			return _dictService.getBean(id);
+		public _NavigationTitleCallback() {
+			super($m("DictItemTbl.0"), COMPONENT_TABLE);
 		}
 
 		@Override
-		protected String getRootText() {
-			return $m("DictItemTbl.0");
+		protected Dict get(final Object id) {
+			return _dictService.getBean(id);
 		}
 
 		@Override
@@ -196,11 +195,6 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		protected String getText(final Dict t) {
 			return !isLink(t) ? super.getText(t) : t.getText()
 					+ SpanElement.shortText("(" + t.getName() + ")");
-		}
-
-		@Override
-		protected String getComponentTable() {
-			return COMPONENT_TABLE;
 		}
 	}
 }

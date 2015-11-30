@@ -105,7 +105,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 			count += stat.getNums();
 			return count;
 		} else {
-			return _dictItemStatService.getAllNums(dict.getId());
+			return _dictItemStatService.getAllNums(dict.getId(), "nums");
 		}
 	}
 
