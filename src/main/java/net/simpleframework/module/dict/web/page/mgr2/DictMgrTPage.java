@@ -57,8 +57,8 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 
 		// 表格
 		final TablePagerBean tablePager = (TablePagerBean) addComponentBean(pp, "DictMgrTPage_tbl",
-				TablePagerBean.class).setShowLineNo(true).setPageItems(30)
-				.setPagerBarLayout(EPagerBarLayout.top).setContainerId("idDictMgrTPage_tbl")
+				TablePagerBean.class).setResize(false).setPageItems(30)
+				.setPagerBarLayout(EPagerBarLayout.bottom).setContainerId("idDictMgrTPage_tbl")
 				.setHandlerClass(_DictItemTbl.class);
 		tablePager
 				.addColumn(TablePagerColumn.ICON())
