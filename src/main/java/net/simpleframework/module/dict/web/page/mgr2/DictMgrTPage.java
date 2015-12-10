@@ -57,9 +57,13 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 
 		// 表格
 		final TablePagerBean tablePager = (TablePagerBean) addComponentBean(pp, "DictMgrTPage_tbl",
-				TablePagerBean.class).setResize(false).setPageItems(30)
-				.setPagerBarLayout(EPagerBarLayout.bottom).setContainerId("idDictMgrTPage_tbl")
-				.setHandlerClass(_DictItemTbl.class);
+				TablePagerBean.class)
+				.setResize(false)
+				.setPageItems(30)
+				.setPagerBarLayout(EPagerBarLayout.bottom)
+				.setJsLoadedCallback(
+						"$('idDictMgrTPage_tbl').previous().innerHTML = $('idDictMgrTPage_nav').innerHTML;")
+				.setContainerId("idDictMgrTPage_tbl").setHandlerClass(_DictItemTbl.class);
 		tablePager
 				.addColumn(TablePagerColumn.ICON())
 				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
@@ -126,7 +130,12 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 		sb.append("<div class='DictMgrTPage'>");
 		sb.append("	<table width='100%'><tr>");
 		sb.append("  <td valign='top' class='ltree'><div id='idDictMgrTPage_category'></div></td>");
-		sb.append("  <td valign='top' class='rtbl'><div id='idDictMgrTPage_tbl'></div></td>");
+		sb.append("  <td valign='top' class='rtbl'>");
+		sb.append("   <div class='rtb'>");
+		// sb.append();
+		sb.append("   </div>");
+		sb.append("   <div id='idDictMgrTPage_tbl'></div>");
+		sb.append("  </td>");
 		sb.append(" </tr></table>");
 		sb.append("</div>");
 		return sb.toString();
@@ -141,19 +150,20 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 	}
 
 	public static class _DictItemTbl extends DictItemTbl {
-
 		@Override
-		public Object getBeanProperty(final ComponentParameter cp, final String beanProperty) {
-			if ("title".equals(beanProperty)) {
-				return NavigationTitle.toElement(cp, DictUtils.getDict(cp),
-						new _NavigationTitleCallback() {
-							@Override
-							protected String getComponentTable() {
-								return "DictMgrTPage_tbl";
-							}
-						}).toString();
-			}
-			return super.getBeanProperty(cp, beanProperty);
+		public String toTableHTML(final ComponentParameter cp) {
+			final StringBuilder sb = new StringBuilder();
+			sb.append("<div id='idDictMgrTPage_nav' style='display: none;'>");
+			sb.append(NavigationTitle.toElement(cp, DictUtils.getDict(cp),
+					new _NavigationTitleCallback() {
+						@Override
+						protected String getComponentTable() {
+							return "DictMgrTPage_tbl";
+						}
+					}));
+			sb.append("</div>");
+			sb.append(super.toTableHTML(cp));
+			return sb.toString();
 		}
 	}
 

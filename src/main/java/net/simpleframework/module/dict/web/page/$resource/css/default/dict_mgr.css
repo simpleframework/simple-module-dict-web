@@ -12,6 +12,10 @@
   padding: 6px;
 }
 
+.DictMgrTPage .rtb {
+  padding: 1px 1px 7px;
+}
+
 .DictMgrTPage .tb {
   border-bottom: 1px solid #bbb;
   padding: 8px 12px;
