@@ -115,7 +115,7 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		item.setExt1(cp.getParameter("di_ext1"));
 		item.setExt2(cp.getIntParameter("di_ext2"));
 		item.setExt3(cp.getParameter("di_ext3"));
-		item.setExt4(cp.getLongParameter("di_ext4"));
+		item.setExt4(cp.getDoubleParameter("di_ext4"));
 
 		DictItem parent = null;
 		final String[] arr = StringUtils.split(cp.getParameter("di_parentText"), ";");
