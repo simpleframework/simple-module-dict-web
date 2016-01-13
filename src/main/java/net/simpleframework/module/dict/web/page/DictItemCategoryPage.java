@@ -63,7 +63,7 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 
 		@Override
 		protected String[] getContextMenuKeys() {
-			return new String[] { "Refresh", "-", "Move" };
+			return new String[] { "Refresh", "-", "Move.up", "Move.up2", "Move.down", "Move.down2" };
 		}
 
 		@Override

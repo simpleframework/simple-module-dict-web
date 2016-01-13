@@ -54,21 +54,11 @@ public class DictItemTbl extends LCTemplateTablePagerHandler implements IDictCon
 			.append(MenuItem.sep())
 			.append(MenuItem.itemLog().setOnclick_act("DictMgrPage_logWin", "beanId"))
 			.append(MenuItem.sep())
-			.append(
-					MenuItem
-							.of($m("Menu.move"))
-							.addChild(
-									MenuItem.of($m("Menu.up"), MenuItem.ICON_UP,
-											"$pager_action(item).move(true, 'DictMgrPage_move');"))
-							.addChild(
-									MenuItem.of($m("Menu.up2"), MenuItem.ICON_UP2,
-											"$pager_action(item).move2(true, 'DictMgrPage_move');"))
-							.addChild(
-									MenuItem.of($m("Menu.down"), MenuItem.ICON_DOWN,
-											"$pager_action(item).move(false, 'DictMgrPage_move');"))
-							.addChild(
-									MenuItem.of($m("Menu.down2"), MenuItem.ICON_DOWN2,
-											"$pager_action(item).move2(false, 'DictMgrPage_move');")));
+			// 移动菜单
+			.append(MenuItem.TBL_MOVE_UP("DictMgrPage_move"))
+			.append(MenuItem.TBL_MOVE_UP2("DictMgrPage_move"))
+			.append(MenuItem.TBL_MOVE_DOWN("DictMgrPage_move"))
+			.append(MenuItem.TBL_MOVE_DOWN2("DictMgrPage_move"));
 
 	@Override
 	public MenuItems getContextMenu(final ComponentParameter cp, final MenuBean menuBean,

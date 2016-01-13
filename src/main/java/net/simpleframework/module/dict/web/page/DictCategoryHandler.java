@@ -164,7 +164,8 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 
 	@Override
 	protected String[] getContextMenuKeys() {
-		return new String[] { "Add", "Edit", "Delete", "-", "Refresh", "-", "Move" };
+		return new String[] { "Add", "Edit", "Delete", "-", "Refresh", "-", "Move.up", "Move.up2",
+				"Move.down", "Move.down2" };
 	}
 
 	@Override
