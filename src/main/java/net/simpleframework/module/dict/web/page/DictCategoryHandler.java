@@ -70,7 +70,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 				final ID domainId = DictUtils.getDomainId(cp);
 				if (domainId == null) {
 					final PermissionDept dept = cp.getPermission().getDept(dict.getDomainId());
-					if (dept.getId() != null) {
+					if (dept.exists()) {
 						parent.setText("(" + SpanElement.color999(dept) + ") " + parent.getText());
 					}
 				}

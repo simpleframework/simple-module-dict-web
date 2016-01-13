@@ -116,7 +116,7 @@ public class DictItemTbl extends LCTemplateTablePagerHandler implements IDictCon
 
 				kv.add("text", sb.toString()).add("codeNo", item.getCodeNo());
 				final PermissionDept dept = cp.getPermission().getDept(item.getDomainId());
-				if (dept.getId() != null) {
+				if (dept.exists()) {
 					kv.add("domainId", dept);
 				}
 

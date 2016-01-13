@@ -84,7 +84,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 							return null;
 						}
 						final PermissionDept dept = pp.getPermission().getDept(ID.of(val));
-						return dept.getId() != null ? dept.getText() : val;
+						return dept.exists() ? dept.getText() : val;
 					}
 				}.setFilterAdvClick("$Actions['DictMgrPage_deptSelect']();"))
 				.addColumn(
