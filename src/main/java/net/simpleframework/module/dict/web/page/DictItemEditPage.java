@@ -218,8 +218,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 	}
 
 	@Override
-	public int getLabelWidth(final PageParameter pp) {
-		return 80;
+	public String getLabelWidth(final PageParameter pp) {
+		return "80px";
 	}
 
 	@Override
