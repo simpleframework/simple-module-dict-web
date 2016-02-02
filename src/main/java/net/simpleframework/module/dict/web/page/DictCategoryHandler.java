@@ -189,7 +189,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 					.addEvent(EElementEvent.click, "$Actions['DictCategoryHandler_deptSelect']();");
 			PermissionDept org = null;
 			if (dict != null) {
-				org = cp.getPermission().getDept(dict.getDomainId());
+				org = cp.getDept(dict.getDomainId());
 			} else {
 				org = AbstractMVCPage.getPermissionOrg(cp);
 			}
