@@ -3,6 +3,7 @@ package net.simpleframework.module.dict.web;
 import static net.simpleframework.common.I18n.$m;
 import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.ctx.ModuleFunctions;
+import net.simpleframework.ctx.ModuleRefUtils;
 import net.simpleframework.module.dict.impl.DictContext;
 import net.simpleframework.module.dict.web.page.t1.DictMgrPage;
 import net.simpleframework.mvc.ctx.WebModuleFunction;
@@ -17,7 +18,7 @@ public class DictWebContext extends DictContext implements IDictWebContext {
 
 	@Override
 	public IModuleRef getLogRef() {
-		return getRef("net.simpleframework.module.dict.web.DictLogRef");
+		return ModuleRefUtils.getRef("net.simpleframework.module.dict.web.DictLogRef");
 	}
 
 	@Override
