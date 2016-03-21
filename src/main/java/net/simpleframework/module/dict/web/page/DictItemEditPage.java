@@ -126,9 +126,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		if (parent == null) {
 			parent = _dictItemService.getBean(cp.getParameter("di_parentId"));
 		}
-		if (parent != null) {
-			item.setParentId(parent.getId());
-		}
+
+		item.setParentId(parent != null ? parent.getId() : null);
 
 		item.setDescription(cp.getParameter("di_description"));
 		if (insert) {
