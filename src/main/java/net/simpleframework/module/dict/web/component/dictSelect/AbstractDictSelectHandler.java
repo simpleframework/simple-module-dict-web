@@ -15,8 +15,8 @@ import net.simpleframework.mvc.component.ui.dictionary.AbstractDictionaryHandler
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class AbstractDictSelectHandler extends AbstractDictionaryHandler implements
-		IDictContextAware {
+public abstract class AbstractDictSelectHandler extends AbstractDictionaryHandler
+		implements IDictContextAware {
 
 	protected Dict getDict(final ComponentParameter cp) {
 		String dictName = cp.getParameter("dictName");

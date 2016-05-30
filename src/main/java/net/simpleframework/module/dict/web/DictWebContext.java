@@ -1,6 +1,7 @@
 package net.simpleframework.module.dict.web;
 
 import static net.simpleframework.common.I18n.$m;
+
 import net.simpleframework.ctx.IModuleRef;
 import net.simpleframework.ctx.ModuleFunctions;
 import net.simpleframework.ctx.ModuleRefUtils;

@@ -59,16 +59,16 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 				new Validator(EValidatorMethod.required, "#di_text, #di_dictText, #di_codeNo"));
 
 		// 字典选取
-		addComponentBean(pp, "DictItemEditPage_dictSelectTree", TreeBean.class).setHandlerClass(
-				DictSelectedTree.class);
+		addComponentBean(pp, "DictItemEditPage_dictSelectTree", TreeBean.class)
+				.setHandlerClass(DictSelectedTree.class);
 		addComponentBean(pp, "DictItemEditPage_dictSelect", DictionaryBean.class)
 				.setBindingId("di_dictId").setBindingText("di_dictText")
 				.addTreeRef(pp, "DictItemEditPage_dictSelectTree").setTitle($m("DictItemPage.0"))
 				.setHeight(300);
 
 		// 上级条目选取
-		addComponentBean(pp, "DictItemEditPage_itemParentTree", TreeBean.class).setHandlerClass(
-				ItemParentSelectedTree.class);
+		addComponentBean(pp, "DictItemEditPage_itemParentTree", TreeBean.class)
+				.setHandlerClass(ItemParentSelectedTree.class);
 		addComponentBean(pp, "DictItemEditPage_itemParentSelect", DictionaryBean.class)
 				.addTreeRef(pp, "DictItemEditPage_itemParentTree").setBindingId("di_parentId")
 				.setBindingText("di_parentText").setTitle($m("DictItemPage.1")).setHeight(300)
@@ -138,7 +138,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 
 		final JavascriptForward js = jsTableRefresh(dict);
 		if (Convert.toBool(cp.getParameter(OPT_NEXT))) {
-			js.append("$w('di_text di_codeNo di_description').each(function(e) { $(e).clear(); }); $('di_text').focus();");
+			js.append(
+					"$w('di_text di_codeNo di_description').each(function(e) { $(e).clear(); }); $('di_text').focus();");
 		} else {
 			js.append("$Actions['DictMgrPage_itemWin'].close();");
 		}
@@ -203,8 +204,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 					pItem = (DictItem) parent.getDataObject();
 				}
 				final ID domainId = DictUtils.getDomainId(cp);
-				dq = (pItem == null ? _dictItemService.queryRoot(dict, domainId) : _dictItemService
-						.queryChildren(pItem, domainId));
+				dq = (pItem == null ? _dictItemService.queryRoot(dict, domainId)
+						: _dictItemService.queryChildren(pItem, domainId));
 			}
 			final TreeNodes nodes = TreeNodes.of();
 			DictItem item;
@@ -227,8 +228,8 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		final InputElement di_text = new InputElement("di_text");
 		final InputElement di_codeNo = new InputElement("di_codeNo");
 
-		final TextButton di_parentText = new TextButton("di_parentText")
-				.setHiddenField("di_parentId").setOnclick(
+		final TextButton di_parentText = new TextButton("di_parentText").setHiddenField("di_parentId")
+				.setOnclick(
 						"$Actions['DictItemEditPage_itemParentSelect']('dictId=' + $F('di_dictId'))");
 
 		final InputElement di_ext1 = new InputElement("di_ext1");
@@ -259,27 +260,28 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 
 		final TextButton di_dictText = new TextButton("di_dictText").setHiddenField("di_dictId")
 				.setOnclick("$Actions['DictItemEditPage_dictSelect']();");
-		final Dict dict = _dictService.getBean(item != null ? item.getDictId() : pp
-				.getParameter("dictId"));
+		final Dict dict = _dictService
+				.getBean(item != null ? item.getDictId() : pp.getParameter("dictId"));
 		if (dict != null) {
 			di_dictText.getHiddenField().setVal(dict.getId());
 			di_dictText.setVal(dict.getText());
 		}
 
 		final TableRow r1 = new TableRow(
-				new RowField($m("DictMgrPage.1"), itemId, di_text).setStarMark(true), new RowField(
-						$m("DictItemPage.0"), di_dictText).setStarMark(true));
+				new RowField($m("DictMgrPage.1"), itemId, di_text).setStarMark(true),
+				new RowField($m("DictItemPage.0"), di_dictText).setStarMark(true));
 		final TableRow r2 = new TableRow(
-				new RowField($m("DictMgrPage.2"), di_codeNo).setStarMark(true), new RowField(
-						$m("DictItemPage.1"), di_parentText));
+				new RowField($m("DictMgrPage.2"), di_codeNo).setStarMark(true),
+				new RowField($m("DictItemPage.1"), di_parentText));
 		final TableRow r3 = new TableRow(new RowField($m("DictItemEditPage.0"), di_ext1),
 				new RowField($m("DictItemEditPage.1"), di_ext2));
 		final TableRow r4 = new TableRow(new RowField($m("DictItemEditPage.2"), di_ext3),
 				new RowField($m("DictItemEditPage.3"), di_ext4));
 		final TableRows rows = TableRows.of(r1, r2, r3, r4);
 		if (pp.isLmanager()) {
-			final TextButton di_domainText = new TextButton("di_domainText").setHiddenField(
-					"di_domainId").setOnclick("$Actions['DictItemEditPage_deptSelect']();");
+			final TextButton di_domainText = new TextButton("di_domainText")
+					.setHiddenField("di_domainId")
+					.setOnclick("$Actions['DictItemEditPage_deptSelect']();");
 			PermissionDept org = null;
 			if (item != null) {
 				org = pp.getPermission().getDept(item.getDomainId());

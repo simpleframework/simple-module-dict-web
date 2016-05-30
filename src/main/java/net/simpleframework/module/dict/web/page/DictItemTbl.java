@@ -47,8 +47,7 @@ public class DictItemTbl extends LCTemplateTablePagerHandler implements IDictCon
 		return _dictItemService.queryItems(dict, orgId);
 	}
 
-	private static final MenuItems CONTEXT_MENUS = MenuItems
-			.of()
+	private static final MenuItems CONTEXT_MENUS = MenuItems.of()
 			.append(MenuItem.itemEdit().setOnclick_act("DictMgrPage_itemWin", "itemId"))
 			.append(MenuItem.itemDelete().setOnclick_act("DictMgrPage_delete", "id"))
 			.append(MenuItem.sep())
@@ -84,7 +83,8 @@ public class DictItemTbl extends LCTemplateTablePagerHandler implements IDictCon
 			}
 
 			@Override
-			public Map<String, Object> getRowData(final ComponentParameter cp, final Object dataObject) {
+			public Map<String, Object> getRowData(final ComponentParameter cp,
+					final Object dataObject) {
 				final DictItem item = (DictItem) dataObject;
 
 				final KVMap kv = new KVMap();
@@ -97,8 +97,9 @@ public class DictItemTbl extends LCTemplateTablePagerHandler implements IDictCon
 
 				AbstractElement<?> img = null;
 				if (!cp.isLmanager() && item.getDomainId() == null) {
-					img = new ImageElement(cp.getCssResourceHomePath(DictItemTbl.class)
-							+ "/images/dict_lock.png").setVerticalAlign(EVerticalAlign.middle);
+					img = new ImageElement(
+							cp.getCssResourceHomePath(DictItemTbl.class) + "/images/dict_lock.png")
+									.setVerticalAlign(EVerticalAlign.middle);
 				}
 				if (img != null) {
 					kv.add(TablePagerColumn.ICON, img);
@@ -129,8 +130,8 @@ public class DictItemTbl extends LCTemplateTablePagerHandler implements IDictCon
 
 	protected String toOpeHTML(final ComponentParameter cp, final DictItem item) {
 		final StringBuilder sb = new StringBuilder();
-		sb.append(ButtonElement.editBtn().setOnclick(
-				"$Actions['DictMgrPage_itemWin']('itemId=" + item.getId() + "');"));
+		sb.append(ButtonElement.editBtn()
+				.setOnclick("$Actions['DictMgrPage_itemWin']('itemId=" + item.getId() + "');"));
 		sb.append(AbstractTablePagerSchema.IMG_DOWNMENU);
 		return sb.toString();
 	}

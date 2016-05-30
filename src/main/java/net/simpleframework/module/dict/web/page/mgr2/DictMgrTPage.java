@@ -57,15 +57,12 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 
 		// 表格
 		final TablePagerBean tablePager = (TablePagerBean) addComponentBean(pp, "DictMgrTPage_tbl",
-				TablePagerBean.class)
-				.setResize(false)
-				.setPageItems(30)
-				.setPagerBarLayout(EPagerBarLayout.bottom)
-				.setJsLoadedCallback(
-						"$('idDictMgrTPage_tbl').previous().innerHTML = $('idDictMgrTPage_nav').innerHTML;")
-				.setContainerId("idDictMgrTPage_tbl").setHandlerClass(_DictItemTbl.class);
-		tablePager
-				.addColumn(TablePagerColumn.ICON())
+				TablePagerBean.class).setResize(false).setPageItems(30)
+						.setPagerBarLayout(EPagerBarLayout.bottom)
+						.setJsLoadedCallback(
+								"$('idDictMgrTPage_tbl').previous().innerHTML = $('idDictMgrTPage_nav').innerHTML;")
+						.setContainerId("idDictMgrTPage_tbl").setHandlerClass(_DictItemTbl.class);
+		tablePager.addColumn(TablePagerColumn.ICON())
 				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
 				.addColumn(new TablePagerColumn("codeNo", $m("DictMgrPage.2")))
 				.addColumn(
@@ -111,16 +108,14 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 	@Override
 	public ElementList getRightElements(final PageParameter pp) {
 		return ElementList
-				.of(LinkButton.of($m("DictMgrPage.5")).setOnclick(
-						"$Actions['DictMgrPage_itemWin']('dictId=' + $F('dictId'));"))
+				.of(LinkButton.of($m("DictMgrPage.5"))
+						.setOnclick("$Actions['DictMgrPage_itemWin']('dictId=' + $F('dictId'));"))
 				.append(SpanElement.SPACE)
-				.append(
-						LinkButton.deleteBtn().setOnclick(
-								"$Actions['DictMgrTPage_tbl'].doAct('DictMgrPage_delete');"))
+				.append(LinkButton.deleteBtn()
+						.setOnclick("$Actions['DictMgrTPage_tbl'].doAct('DictMgrPage_delete');"))
 				.append(SpanElement.SPACE)
-				.append(
-						new LinkButton($m("DictMgrPage.7")).setIconClass(Icon.folder_open).setOnclick(
-								"$Actions['DictMgrTPage_categoryWin']('dictId=' + $F('dictId'));"));
+				.append(new LinkButton($m("DictMgrPage.7")).setIconClass(Icon.folder_open)
+						.setOnclick("$Actions['DictMgrTPage_categoryWin']('dictId=' + $F('dictId'));"));
 	}
 
 	@Override
@@ -144,8 +139,8 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 	public static class _DictCategoryHandler extends DictCategoryHandler {
 		@Override
 		protected void setJsClickCallback(final TreeNode tn, final Dict dict) {
-			tn.setJsClickCallback("$Actions['DictMgrTPage_tbl']('dictId="
-					+ (dict == null ? "" : dict.getId()) + "')");
+			tn.setJsClickCallback(
+					"$Actions['DictMgrTPage_tbl']('dictId=" + (dict == null ? "" : dict.getId()) + "')");
 		}
 	}
 
@@ -154,8 +149,8 @@ public class DictMgrTPage extends AbstractMgrTPage implements IDictContextAware 
 		public String toTableHTML(final ComponentParameter cp) {
 			final StringBuilder sb = new StringBuilder();
 			sb.append("<div id='idDictMgrTPage_nav' style='display: none;'>");
-			sb.append(NavigationTitle.toElement(cp, DictUtils.getDict(cp),
-					new _NavigationTitleCallback() {
+			sb.append(
+					NavigationTitle.toElement(cp, DictUtils.getDict(cp), new _NavigationTitleCallback() {
 						@Override
 						protected String getComponentTable() {
 							return "DictMgrTPage_tbl";

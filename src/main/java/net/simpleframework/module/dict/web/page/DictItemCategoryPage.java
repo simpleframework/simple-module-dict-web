@@ -57,8 +57,8 @@ public class DictItemCategoryPage extends OneCategoryTemplatePage implements IDi
 			}
 			final IDictItemService service = getBeanService();
 			final DictItem parent = service.getBean(categoryId);
-			return parent == null ? service.queryRoot(dict, DictUtils.getDomainId(cp)) : service
-					.queryChildren(parent);
+			return parent == null ? service.queryRoot(dict, DictUtils.getDomainId(cp))
+					: service.queryChildren(parent);
 		}
 
 		@Override

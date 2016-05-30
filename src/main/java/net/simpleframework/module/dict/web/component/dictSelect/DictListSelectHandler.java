@@ -16,8 +16,8 @@ import net.simpleframework.mvc.component.ui.listbox.ListboxBean;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class DictListSelectHandler extends AbstractDictSelectHandler implements
-		IDictListSelectHandler {
+public class DictListSelectHandler extends AbstractDictSelectHandler
+		implements IDictListSelectHandler {
 
 	protected ListItem createItem(final ListboxBean listbox, final DictItem dictItem) {
 		final ListItem item = new ListItem(listbox, dictItem.getText());

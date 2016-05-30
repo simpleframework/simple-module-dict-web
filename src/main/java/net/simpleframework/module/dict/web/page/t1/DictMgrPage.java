@@ -1,6 +1,7 @@
 package net.simpleframework.module.dict.web.page.t1;
 
 import static net.simpleframework.common.I18n.$m;
+
 import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleRef;
@@ -63,18 +64,14 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 		addCategoryBean(pp, DictCategoryHandler.class);
 
 		// 部门选取
-		addComponentBean(pp, "DictMgrPage_deptSelect", DeptSelectBean.class)
-				.setOrg(true)
-				.setMultiple(false)
-				.setClearAction("false")
-				.setJsSelectCallback(
-						"$Actions['" + COMPONENT_TABLE
-								+ "']('filter_cur_col=domainId&filter=%3D;' + selects[0].id);return true;");
+		addComponentBean(pp, "DictMgrPage_deptSelect", DeptSelectBean.class).setOrg(true)
+				.setMultiple(false).setClearAction("false")
+				.setJsSelectCallback("$Actions['" + COMPONENT_TABLE
+						+ "']('filter_cur_col=domainId&filter=%3D;' + selects[0].id);return true;");
 
 		// 字典条目
 		final TablePagerBean tablePager = addTablePagerBean(pp, DictItemTbl.class);
-		tablePager
-				.addColumn(TablePagerColumn.ICON())
+		tablePager.addColumn(TablePagerColumn.ICON())
 				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
 				.addColumn(new TablePagerColumn("codeNo", $m("DictMgrPage.2")))
 				.addColumn(new TablePagerColumn("domainId", $m("DictMgrPage.9"), 200) {
@@ -126,7 +123,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 
 	@Override
 	public String getPageRole(final PageParameter pp) {
-		return dictContext.getModule().getManagerRole();
+		return getPageManagerRole(pp);
 	}
 
 	@Transaction(context = IDictContext.class)
@@ -160,15 +157,14 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 				.append(SpanElement.SPACE)
 				.append(delete_btn("DictMgrPage_delete").setText($m("DictMgrPage.6")))
 				.append(SpanElement.SPACE)
-				.append(
-						new LinkButton($m("DictMgrPage.7")).setIconClass(Icon.folder_open).setOnclick(
-								"$Actions['DictMgrPage_categoryWin']('dictId=' + $F('dictId'));"));
+				.append(new LinkButton($m("DictMgrPage.7")).setIconClass(Icon.folder_open)
+						.setOnclick("$Actions['DictMgrPage_categoryWin']('dictId=' + $F('dictId'));"));
 	}
 
 	@Override
 	public ElementList getLeftElements(final PageParameter pp) {
-		return ElementList.of(NavigationTitle.toElement(pp, DictUtils.getDict(pp),
-				new _NavigationTitleCallback()));
+		return ElementList.of(
+				NavigationTitle.toElement(pp, DictUtils.getDict(pp), new _NavigationTitleCallback()));
 	}
 
 	public static class _NavigationTitleCallback extends NavigationTitleCallback<Dict> {
@@ -193,8 +189,8 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 
 		@Override
 		protected String getText(final Dict t) {
-			return !isLink(t) ? super.getText(t) : t.getText()
-					+ SpanElement.shortText("(" + t.getName() + ")");
+			return !isLink(t) ? super.getText(t)
+					: t.getText() + SpanElement.shortText("(" + t.getName() + ")");
 		}
 	}
 }

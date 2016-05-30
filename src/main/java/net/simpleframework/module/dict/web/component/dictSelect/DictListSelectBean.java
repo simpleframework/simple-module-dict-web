@@ -1,6 +1,7 @@
 package net.simpleframework.module.dict.web.component.dictSelect;
 
 import static net.simpleframework.common.I18n.$m;
+
 import net.simpleframework.mvc.component.ui.dictionary.DictionaryBean;
 
 /**

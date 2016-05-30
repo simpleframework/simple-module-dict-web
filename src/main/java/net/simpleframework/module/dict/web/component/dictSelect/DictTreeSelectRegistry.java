@@ -36,8 +36,9 @@ public class DictTreeSelectRegistry extends DictionaryRegistry {
 		final ComponentParameter nCP = ComponentParameter.get(pp, dictSelect);
 
 		final String dictSelectName = nCP.getComponentName();
-		final TreeBean treeBean = (TreeBean) pp.addComponentBean(dictSelectName + "_tree",
-				TreeBean.class).setHandlerClass(DictTree.class);
+		final TreeBean treeBean = (TreeBean) pp
+				.addComponentBean(dictSelectName + "_tree", TreeBean.class)
+				.setHandlerClass(DictTree.class);
 		dictSelect.addTreeRef(pp, treeBean.getName());
 		treeBean.setAttr("$dictSelect", dictSelect);
 

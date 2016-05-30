@@ -1,6 +1,7 @@
 package net.simpleframework.module.dict.web.page;
 
 import static net.simpleframework.common.I18n.$m;
+
 import net.simpleframework.ado.query.IDataQuery;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
@@ -35,8 +36,8 @@ import net.simpleframework.mvc.template.t1.ext.CategoryTableLCTemplatePage;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implements
-		IDictContextAware {
+public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict>
+		implements IDictContextAware {
 
 	@Override
 	protected IDictService getBeanService() {
@@ -45,8 +46,8 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 
 	@Override
 	protected IDataQuery<?> categoryBeans(final ComponentParameter cp, final Object categoryId) {
-		return _dictService
-				.queryChildren(_dictService.getBean(categoryId), DictUtils.getDomainId(cp));
+		return _dictService.queryChildren(_dictService.getBean(categoryId),
+				DictUtils.getDomainId(cp));
 	}
 
 	@Override
@@ -184,8 +185,7 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 					.setBindingId("domain_id").setBindingText("domain_text");
 
 			final InputComp domain_id = InputComp.hidden("domain_id");
-			final InputComp domain_text = InputComp.textButton("domain_text")
-					.setAttributes("readonly")
+			final InputComp domain_text = InputComp.textButton("domain_text").setAttributes("readonly")
 					.addEvent(EElementEvent.click, "$Actions['DictCategoryHandler_deptSelect']();");
 			PermissionDept org = null;
 			if (dict != null) {
@@ -202,10 +202,8 @@ public class DictCategoryHandler extends CategoryBeanAwareHandler<Dict> implemen
 		}
 
 		if (dict == null) {
-			fields.add(
-					2,
-					new PropField($m("DictCategoryHandler.2")).addComponents(InputComp.select(
-							"dict_mark").setDefaultEnumValue(EDictMark.normal, EDictMark.category)));
+			fields.add(2, new PropField($m("DictCategoryHandler.2")).addComponents(InputComp
+					.select("dict_mark").setDefaultEnumValue(EDictMark.normal, EDictMark.category)));
 		}
 		return editor;
 	}

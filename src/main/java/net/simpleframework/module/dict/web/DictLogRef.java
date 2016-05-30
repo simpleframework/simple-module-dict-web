@@ -18,8 +18,8 @@ import net.simpleframework.mvc.component.ui.window.WindowBean;
 public class DictLogRef extends LogRef implements IDictContextAware {
 
 	public void addLogComponent(final PageParameter pp) {
-		pp.addComponentBean("DictMgrPage_logPage", AjaxRequestBean.class).setUrlForward(
-				AbstractMVCPage.url(DictItemLogPage.class));
+		pp.addComponentBean("DictMgrPage_logPage", AjaxRequestBean.class)
+				.setUrlForward(AbstractMVCPage.url(DictItemLogPage.class));
 		pp.addComponentBean("DictMgrPage_logWin", WindowBean.class)
 				.setContentRef("DictMgrPage_logPage").setHeight(600).setWidth(960);
 	}
