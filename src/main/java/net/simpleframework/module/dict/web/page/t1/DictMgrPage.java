@@ -126,7 +126,7 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 
 	@Override
 	public String getPageRole(final PageParameter pp) {
-		return dictContext.getModule().getManagerRole();
+		return getPageManagerRole(pp);
 	}
 
 	@Transaction(context = IDictContext.class)
