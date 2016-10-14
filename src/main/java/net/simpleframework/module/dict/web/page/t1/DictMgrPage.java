@@ -75,6 +75,8 @@ public class DictMgrPage extends CategoryTableLCTemplatePage implements IDictCon
 				.addColumn(new TablePagerColumn("text", $m("DictMgrPage.1")))
 				.addColumn(new TablePagerColumn("codeNo", $m("DictMgrPage.2")))
 				.addColumn(new TablePagerColumn("domainId", $m("DictMgrPage.9"), 200) {
+					private static final long serialVersionUID = -5540421628661585177L;
+
 					@Override
 					public String getFilterVal(final String val) {
 						if (val == null) {
