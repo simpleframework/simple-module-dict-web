@@ -133,6 +133,10 @@ public class DictItemEditPage extends FormTableRowTemplatePage implements IDictC
 		if (insert) {
 			_dictItemService.insert(item);
 		} else {
+			if (cp.isLmanager()) {
+				final String domainId = cp.getParameter("di_domainId");
+				item.setDomainId(StringUtils.hasText(domainId) ? ID.of(domainId) : null);
+			}
 			_dictItemService.update(item);
 		}
 
